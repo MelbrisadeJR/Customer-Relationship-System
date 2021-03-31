@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+// import { useHistory } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Avatar,
@@ -31,12 +32,11 @@ const Results = ({ className, customers, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
-
   const handleSelectAll = (event) => {
     let newSelectedCustomerIds;
 
     if (event.target.checked) {
-      newSelectedCustomerIds = customers.map((customer) => customer.id);
+      newSelectedCustomerIds = customers.map((customer) => customer.customerId);
     } else {
       newSelectedCustomerIds = [];
     }
@@ -72,6 +72,17 @@ const Results = ({ className, customers, ...rest }) => {
     setPage(newPage);
   };
 
+  // const history = useHistory();
+  // const navigate = useNavigate();
+
+  function openCustomer(id) {
+    // history.push(`/customer/${id}`);
+    const route = `/customer/${id}`;
+    console.log(route);
+    // navigate(route);
+    // return <Redirect from="/customer" to="/customer/666" />;
+  }
+
   return (
     <Card
       className={clsx(classes.root, className)}
@@ -100,13 +111,13 @@ const Results = ({ className, customers, ...rest }) => {
                   Email
                 </TableCell>
                 <TableCell>
-                  Location
+                  Address
                 </TableCell>
                 <TableCell>
                   Phone
                 </TableCell>
                 <TableCell>
-                  Registration date
+                  Action
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -114,13 +125,13 @@ const Results = ({ className, customers, ...rest }) => {
               {customers.slice(0, limit).map((customer) => (
                 <TableRow
                   hover
-                  key={customer.id}
-                  selected={selectedCustomerIds.indexOf(customer.id) !== -1}
+                  key={customer.customerId}
+                  selected={selectedCustomerIds.indexOf(customer.customerId) !== -1}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
-                      checked={selectedCustomerIds.indexOf(customer.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, customer.id)}
+                      checked={selectedCustomerIds.indexOf(customer.customerId) !== -1}
+                      onChange={(event) => handleSelectOne(event, customer.customerId)}
                       value="true"
                     />
                   </TableCell>
@@ -139,7 +150,8 @@ const Results = ({ className, customers, ...rest }) => {
                         color="textPrimary"
                         variant="body1"
                       >
-                        {customer.name}
+                        {customer.firstName}
+                        {customer.lastName}
                       </Typography>
                     </Box>
                   </TableCell>
@@ -147,13 +159,15 @@ const Results = ({ className, customers, ...rest }) => {
                     {customer.email}
                   </TableCell>
                   <TableCell>
-                    {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
+                    {`${customer.addressLine1}, ${customer.addressLine2}, ${customer.city}, ${customer.country}`}
                   </TableCell>
                   <TableCell>
-                    {customer.phone}
+                    {customer.mobile}
                   </TableCell>
                   <TableCell>
-                    {moment(customer.createdAt).format('DD/MM/YYYY')}
+                    <button type="button" className="btn btn-success" onClick={() => openCustomer(customer.customerId)}>
+                      View
+                    </button>
                   </TableCell>
                 </TableRow>
               ))}
