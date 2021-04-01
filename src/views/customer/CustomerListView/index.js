@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Container,
@@ -7,7 +7,10 @@ import {
 import Page from 'src/components/Page';
 import Results from './Results';
 import Toolbar from './Toolbar';
-import data from './data';
+// eslint-disable-next-line import/extensions
+import CustomerService from '../../../services/customer';
+
+// import data from './data';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +23,23 @@ const useStyles = makeStyles((theme) => ({
 
 const CustomerListView = () => {
   const classes = useStyles();
-  const [customers] = useState(data);
+  const [customers, setCustomers] = useState([]);
+
+  const retrieveCustomers = () => {
+    CustomerService.getAll()
+      .then((response) => {
+        // const { customers } = response.data;
+        // customers.map(customer => customer.date = customer.date.slice(0,10));
+        setCustomers(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  useEffect(() => {
+    retrieveCustomers();
+  }, []);
 
   return (
     <Page
