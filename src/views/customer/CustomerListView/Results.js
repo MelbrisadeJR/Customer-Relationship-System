@@ -76,11 +76,11 @@ const Results = ({ className, customers, ...rest }) => {
   // const navigate = useNavigate();
 
   function openCustomer(id) {
-    // history.push(`/customer/${id}`);
-    const route = `/customer/${id}`;
+    // history.push(`/customers/${id}`);
+    const route = `/customers/${id}`;
     console.log(route);
     // navigate(route);
-    // return <Redirect from="/customer" to="/customer/666" />;
+    // return <Redirect from="/customers" to="/customers/666" />;
   }
 
   return (

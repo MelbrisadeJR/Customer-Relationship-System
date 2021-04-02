@@ -1,11 +1,11 @@
 import http from '../utils/http-common';
 
 const getAll = () => {
-  return http.get('/customer');
+  return http.get('/customers');
 };
 
 const getOne = (id) => {
-  return http.get(`/customer/${id}`);
+  return http.get(`/customers/${id}`);
 };
 
 const CustomerService = {
