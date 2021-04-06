@@ -12,7 +12,7 @@ export default [
     avatarUrl: '/static/images/avatars/avatar_3.png',
     createdAt: 1555016400000,
     email: 'ekaterina.tankova@devias.io',
-    name: 'feedback 1',
+    name: 'Order 1',
     phone: '304-428-3097'
   },
   {
@@ -26,7 +26,7 @@ export default [
     avatarUrl: '/static/images/avatars/avatar_4.png',
     createdAt: 1555016400000,
     email: 'cao.yu@devias.io',
-    name: 'feedback 2',
+    name: 'Order 2',
     phone: '712-351-5711'
   },
   {
@@ -40,7 +40,7 @@ export default [
     avatarUrl: '/static/images/avatars/avatar_2.png',
     createdAt: 1555016400000,
     email: 'alexa.richardson@devias.io',
-    name: 'feedback 3',
+    name: 'Order 3',
     phone: '770-635-2682'
   }
 ];
