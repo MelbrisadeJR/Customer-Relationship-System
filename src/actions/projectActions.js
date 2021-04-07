@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { GET_FEEDBACKS } from './types';
 
-const get_feedbacks = () => async dispatch => {
+const getFeedbacks = () => async dispatch => {
     const res = await axios.get("http://localhost:8080//api/feedback/all");
     dispatch({
         type: GET_FEEDBACKS,
@@ -9,4 +9,4 @@ const get_feedbacks = () => async dispatch => {
     });
 }
 
-export default get_feedbacks;
+export default getFeedbacks;
