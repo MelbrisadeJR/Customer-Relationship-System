@@ -7,6 +7,7 @@ import {
 import Page from 'src/components/Page';
 import Results from './Results';
 import Toolbar from './Toolbar';
+import FeedbackService from '../../../services/feedback'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,7 +22,7 @@ const FeedbackListView = () => {
   const classes = useStyles();
   const [customers, setCustomers] = useState([]);
   const retrieveCustomers = () => {
-    CustomerService.getAll()
+    FeedbackService.getAll()
       .then((response) => {
         // const { customers } = response.data;
         // customers.map(customer => customer.date = customer.date.slice(0,10));
