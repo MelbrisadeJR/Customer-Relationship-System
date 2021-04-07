@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Container,
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
+import Results from './Results';
 import Toolbar from './Toolbar';
 
 const useStyles = makeStyles((theme) => ({
@@ -18,6 +19,22 @@ const useStyles = makeStyles((theme) => ({
 
 const FeedbackListView = () => {
   const classes = useStyles();
+  const [customers, setCustomers] = useState([]);
+  const retrieveCustomers = () => {
+    CustomerService.getAll()
+      .then((response) => {
+        // const { customers } = response.data;
+        // customers.map(customer => customer.date = customer.date.slice(0,10));
+        setCustomers(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  useEffect(() => {
+    retrieveCustomers();
+  }, []);
   return (
     <Page
       className={classes.root}
@@ -25,7 +42,9 @@ const FeedbackListView = () => {
     >
       <Container maxWidth={false}>
         <Toolbar />
-        <Box mt={3} />
+        <Box mt={3}>
+          <Results customers={customers} />
+        </Box>
       </Container>
     </Page>
   );
