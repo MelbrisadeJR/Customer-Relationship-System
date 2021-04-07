@@ -7,7 +7,7 @@ import {
 import Page from 'src/components/Page';
 import Results from './Results';
 import Toolbar from './Toolbar';
-import FeedbackService from '../../../services/feedback'
+import FeedbackService from '../../../services/feedback';
 
 const useStyles = makeStyles((theme) => ({
   root: {

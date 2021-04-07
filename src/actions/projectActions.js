@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { GET_FEEDBACKS } from './types';
+
+const GET_FEEDBACKS = 'GET_FEEDBACKS';
 
 const getFeedbacks = () => async (dispatch) => {
   const res = await axios.get('http://localhost:8080//api/feedback/all');

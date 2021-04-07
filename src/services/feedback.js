@@ -4,7 +4,7 @@ const getAll = () => {
   return http.get('/feedback/all');
 };
 
-const CustomerService = {
+const FeedbackService = {
   getAll
 };
 
