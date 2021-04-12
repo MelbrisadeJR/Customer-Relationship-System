@@ -45,7 +45,7 @@ const Toolbar = ({ className, ...rest }) => {
           color="primary"
           variant="contained"
         >
-          Add customer
+          Add Feedback
         </Button>
       </Box>
       <Box mt={3}>
