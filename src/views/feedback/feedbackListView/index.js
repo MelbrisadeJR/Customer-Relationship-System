@@ -21,11 +21,9 @@ const useStyles = makeStyles((theme) => ({
 const FeedbackListView = () => {
   const classes = useStyles();
   const [feedbacks, setFeedbacks] = useState([]);
-  const retrieveCustomers = () => {
+  const retrieveFeedbacks = () => {
     FeedbackService.getAll()
       .then((response) => {
-        // const { customers } = response.data;
-        // customers.map(customer => customer.date = customer.date.slice(0,10));
         setFeedbacks(response.data);
       })
       .catch((e) => {
@@ -34,7 +32,7 @@ const FeedbackListView = () => {
   };
 
   useEffect(() => {
-    retrieveCustomers();
+    retrieveFeedbacks();
   }, []);
   return (
     <Page
