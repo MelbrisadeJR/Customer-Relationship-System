@@ -20,13 +20,13 @@ const useStyles = makeStyles((theme) => ({
 
 const FeedbackListView = () => {
   const classes = useStyles();
-  const [customers, setCustomers] = useState([]);
+  const [feedbacks, setFeedbacks] = useState([]);
   const retrieveCustomers = () => {
     FeedbackService.getAll()
       .then((response) => {
         // const { customers } = response.data;
         // customers.map(customer => customer.date = customer.date.slice(0,10));
-        setCustomers(response.data);
+        setFeedbacks(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -39,12 +39,12 @@ const FeedbackListView = () => {
   return (
     <Page
       className={classes.root}
-      title="Customers"
+      title="Feedbacks"
     >
       <Container maxWidth={false}>
         <Toolbar />
         <Box mt={3}>
-          <Results customers={customers} />
+          <Results feedbacks={feedbacks} />
         </Box>
       </Container>
     </Page>
