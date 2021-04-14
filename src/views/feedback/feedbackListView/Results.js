@@ -16,6 +16,7 @@ import {
   Typography,
   makeStyles
 } from '@material-ui/core';
+// import { deleteFeedback } from 'src/views/feedback/feedbackListView';
 // import getInitials from 'src/utils/getInitials';
 
 const useStyles = makeStyles((theme) => ({
@@ -111,6 +112,9 @@ const Results = ({ className, feedbacks, ...rest }) => {
                 <TableCell>
                   UpdateAt
                 </TableCell>
+                <TableCell>
+                  Delete
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -150,10 +154,10 @@ const Results = ({ className, feedbacks, ...rest }) => {
                     {feedback.priority}
                   </TableCell>
                   <TableCell>
-                    {moment(feedback.create_At, 'YYYY-DD-MM').format('DD/MM/YYYY')}
+                    {moment(feedback.create_At, 'DD/MM/YYYY').format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell>
-                    {moment(feedback.update_At, 'YYYY-DD-MM').format('DD/MM/YYYY')}
+                    {moment(feedback.update_At, 'DD/MM/YYYY').format('DD/MM/YYYY')}
                   </TableCell>
                 </TableRow>
               ))}

@@ -8,4 +8,8 @@ const FeedbackService = {
   getAll
 };
 
+// const deleteFeedback = (feedbackSeq) => {
+//   return http.delete(`/feedback/${feedbackSeq}`);
+// };
+
 export default FeedbackService;
