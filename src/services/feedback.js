@@ -4,12 +4,13 @@ const getAll = () => {
   return http.get('/feedback/all');
 };
 
-const FeedbackService = {
-  getAll
+const deleteFeedback = (feedbackSeq) => {
+  return http.delete(`/feedback/${feedbackSeq}`);
 };
 
-// const deleteFeedback = (feedbackSeq) => {
-//   return http.delete(`/feedback/${feedbackSeq}`);
-// };
+const FeedbackService = {
+  getAll,
+  deleteFeedback
+};
 
 export default FeedbackService;
