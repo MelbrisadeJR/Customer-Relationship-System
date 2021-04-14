@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -16,6 +16,7 @@ import {
   Typography,
   makeStyles
 } from '@material-ui/core';
+import FeedbackService from '../../../services/feedback';
 // import { deleteFeedback } from 'src/views/feedback/feedbackListView';
 // import getInitials from 'src/utils/getInitials';
 
@@ -72,6 +73,14 @@ const Results = ({ className, feedbacks, ...rest }) => {
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
+
+  const deleteFeeback = (id) => {
+    FeedbackService.deleteFeedback(id);
+  };
+
+  useEffect(() => {
+    deleteFeeback();
+  }, []);
 
   return (
     <Card
@@ -160,7 +169,7 @@ const Results = ({ className, feedbacks, ...rest }) => {
                     {moment(feedback.update_At, 'DD/MM/YYYY').format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell>
-                    <button type="button" className="btn btn-success" onClick={() => openCustomer(feedback.id)}>Delete</button>
+                    <button type="button" className="btn btn-success" onClick={() => deleteFeeback(feedback.feedbackSequenceNum)}>Delete</button>
                   </TableCell>
                 </TableRow>
               ))}

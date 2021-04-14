@@ -31,16 +31,6 @@ const FeedbackListView = () => {
       });
   };
 
-  // const deleteFeedback = (id) => {
-  //   FeedbackService.deleteFeedback(id)
-  //     .then((response) => {
-  //       setFeedbacks(response.data);
-  //     })
-  //     .catch((e) => {
-  //       console.log(e);
-  //     });
-  // };
-
   useEffect(() => {
     retrieveFeedbacks();
   }, []);
