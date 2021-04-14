@@ -113,7 +113,7 @@ const Results = ({ className, feedbacks, ...rest }) => {
                   UpdateAt
                 </TableCell>
                 <TableCell>
-                  Delete
+                  Action
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -158,6 +158,9 @@ const Results = ({ className, feedbacks, ...rest }) => {
                   </TableCell>
                   <TableCell>
                     {moment(feedback.update_At, 'DD/MM/YYYY').format('DD/MM/YYYY')}
+                  </TableCell>
+                  <TableCell>
+                    <button type="button" className="btn btn-success" onClick={() => openCustomer(feedback.id)}>Delete</button>
                   </TableCell>
                 </TableRow>
               ))}
