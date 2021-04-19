@@ -17,8 +17,6 @@ import {
   makeStyles
 } from '@material-ui/core';
 import FeedbackService from '../../../services/feedback';
-// import { deleteFeedback } from 'src/views/feedback/feedbackListView';
-// import getInitials from 'src/utils/getInitials';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -29,41 +27,41 @@ const useStyles = makeStyles((theme) => ({
 
 const Results = ({ className, feedbacks, ...rest }) => {
   const classes = useStyles();
-  const [setselectedFeedbackIds, setsetselectedFeedbackIds] = useState([]);
+  const [selectedFeedbackIds, setselectedFeedbackIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 
   const handleSelectAll = (event) => {
-    let newsetselectedFeedbackIds;
+    let newselectedFeedbackIds;
 
     if (event.target.checked) {
-      newsetselectedFeedbackIds = feedbacks.map((feedback) => feedback.id);
+      newselectedFeedbackIds = feedbacks.map((feedback) => feedback.id);
     } else {
-      newsetselectedFeedbackIds = [];
+      newselectedFeedbackIds = [];
     }
 
-    setsetselectedFeedbackIds(newsetselectedFeedbackIds);
+    setselectedFeedbackIds(newselectedFeedbackIds);
   };
 
   const handleSelectOne = (event, id) => {
-    const selectedIndex = setselectedFeedbackIds.indexOf(id);
-    let newsetselectedFeedbackIds = [];
+    const selectedIndex = selectedFeedbackIds.indexOf(id);
+    let newselectedFeedbackIds = [];
 
     if (selectedIndex === -1) {
-      newsetselectedFeedbackIds = newsetselectedFeedbackIds.concat(setselectedFeedbackIds, id);
+      newselectedFeedbackIds = newselectedFeedbackIds.concat(selectedFeedbackIds, id);
     } else if (selectedIndex === 0) {
-      newsetselectedFeedbackIds = newsetselectedFeedbackIds.concat(setselectedFeedbackIds.slice(1));
-    } else if (selectedIndex === setselectedFeedbackIds.length - 1) {
-      newsetselectedFeedbackIds = newsetselectedFeedbackIds
-        .concat(setselectedFeedbackIds.slice(0, -1));
+      newselectedFeedbackIds = newselectedFeedbackIds.concat(selectedFeedbackIds.slice(1));
+    } else if (selectedIndex === selectedFeedbackIds.length - 1) {
+      newselectedFeedbackIds = newselectedFeedbackIds
+        .concat(selectedFeedbackIds.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newsetselectedFeedbackIds = newsetselectedFeedbackIds.concat(
-        setselectedFeedbackIds.slice(0, selectedIndex),
-        setselectedFeedbackIds.slice(selectedIndex + 1)
+      newselectedFeedbackIds = newselectedFeedbackIds.concat(
+        selectedFeedbackIds.slice(0, selectedIndex),
+        selectedFeedbackIds.slice(selectedIndex + 1)
       );
     }
 
-    setsetselectedFeedbackIds(newsetselectedFeedbackIds);
+    setselectedFeedbackIds(newselectedFeedbackIds);
   };
 
   const handleLimitChange = (event) => {
@@ -94,11 +92,11 @@ const Results = ({ className, feedbacks, ...rest }) => {
               <TableRow>
                 <TableCell padding="checkbox">
                   <Checkbox
-                    checked={setselectedFeedbackIds.length === feedbacks.length}
+                    checked={selectedFeedbackIds.length === feedbacks.length}
                     color="primary"
                     indeterminate={
-                      setselectedFeedbackIds.length > 0
-                      && setselectedFeedbackIds.length < feedbacks.length
+                      selectedFeedbackIds.length > 0
+                      && selectedFeedbackIds.length < feedbacks.length
                     }
                     onChange={handleSelectAll}
                   />
@@ -131,11 +129,11 @@ const Results = ({ className, feedbacks, ...rest }) => {
                 <TableRow
                   hover
                   key={feedback.id}
-                  selected={setselectedFeedbackIds.indexOf(feedback.id) !== -1}
+                  selected={selectedFeedbackIds.indexOf(feedback.id) !== -1}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
-                      checked={setselectedFeedbackIds.indexOf(feedback.id) !== -1}
+                      checked={selectedFeedbackIds.indexOf(feedback.id) !== -1}
                       onChange={(event) => handleSelectOne(event, feedback.id)}
                       value="true"
                     />
