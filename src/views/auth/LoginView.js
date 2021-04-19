@@ -51,6 +51,7 @@ const LoginView = () => {
               password: Yup.string().max(255).required('Password is required')
             })}
             onSubmit={() => {
+              localStorage.setItem('isAuth', true);
               navigate('/app/dashboard', { replace: true });
             }}
           >
