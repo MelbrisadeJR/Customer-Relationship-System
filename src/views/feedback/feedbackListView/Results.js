@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -25,17 +25,32 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Results = ({ className, feedbacks, ...rest }) => {
+const Results = ({ className, ...rest }) => {
   const classes = useStyles();
   const [selectedFeedbackIds, setselectedFeedbackIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+  const [rows, setRows] = useState([]);
+
+  const retrieveRows = () => {
+    FeedbackService.getAll()
+      .then((response) => {
+        setRows(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  useEffect(() => {
+    retrieveRows();
+  }, []);
 
   const handleSelectAll = (event) => {
     let newselectedFeedbackIds;
 
     if (event.target.checked) {
-      newselectedFeedbackIds = feedbacks.map((feedback) => feedback.id);
+      newselectedFeedbackIds = rows.map((feedback) => feedback.id);
     } else {
       newselectedFeedbackIds = [];
     }
@@ -88,11 +103,11 @@ const Results = ({ className, feedbacks, ...rest }) => {
               <TableRow>
                 <TableCell padding="checkbox">
                   <Checkbox
-                    checked={selectedFeedbackIds.length === feedbacks.length}
+                    checked={selectedFeedbackIds.length === rows.length}
                     color="primary"
                     indeterminate={
                       selectedFeedbackIds.length > 0
-                      && selectedFeedbackIds.length < feedbacks.length
+                      && selectedFeedbackIds.length < rows.length
                     }
                     onChange={handleSelectAll}
                   />
@@ -121,7 +136,7 @@ const Results = ({ className, feedbacks, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {feedbacks.slice(0, limit).map((feedback) => (
+              {rows.slice(0, limit).map((feedback) => (
                 <TableRow
                   hover
                   key={feedback.id}
@@ -173,7 +188,7 @@ const Results = ({ className, feedbacks, ...rest }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={feedbacks.length}
+        count={rows.length}
         onChangePage={handlePageChange}
         onChangeRowsPerPage={handleLimitChange}
         page={page}
@@ -186,7 +201,7 @@ const Results = ({ className, feedbacks, ...rest }) => {
 
 Results.propTypes = {
   className: PropTypes.string,
-  feedbacks: PropTypes.array.isRequired
+  rows: PropTypes.array.isRequired
 };
 
 export default Results;
