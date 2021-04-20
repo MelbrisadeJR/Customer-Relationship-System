@@ -76,10 +76,6 @@ const Results = ({ className, feedbacks, ...rest }) => {
     FeedbackService.deleteFeedback(id);
   };
 
-  useEffect(() => {
-    deleteFeeback();
-  }, []);
-
   return (
     <Card
       className={clsx(classes.root, className)}
