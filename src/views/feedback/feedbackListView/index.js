@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   Box,
   Container,
@@ -7,7 +7,6 @@ import {
 import Page from 'src/components/Page';
 import Results from './Results';
 import Toolbar from './Toolbar';
-import FeedbackService from '../../../services/feedback';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,20 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 const FeedbackListView = () => {
   const classes = useStyles();
-  const [feedbacks, setFeedbacks] = useState([]);
-  const retrieveFeedbacks = () => {
-    FeedbackService.getAll()
-      .then((response) => {
-        setFeedbacks(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
 
-  useEffect(() => {
-    retrieveFeedbacks();
-  }, []);
   return (
     <Page
       className={classes.root}
@@ -42,7 +28,7 @@ const FeedbackListView = () => {
       <Container maxWidth={false}>
         <Toolbar />
         <Box mt={3}>
-          <Results feedbacks={feedbacks} />
+          <Results />
         </Box>
       </Container>
     </Page>
