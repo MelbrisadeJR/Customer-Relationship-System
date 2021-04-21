@@ -119,10 +119,10 @@ const Results = ({ className, ...rest }) => {
                   Description
                 </TableCell>
                 <TableCell>
-                  Feedback Status
+                  Rate
                 </TableCell>
                 <TableCell>
-                  Priority
+                  ProductName
                 </TableCell>
                 <TableCell>
                   CreateAt
@@ -166,7 +166,7 @@ const Results = ({ className, ...rest }) => {
                     {feedback.description}
                   </TableCell>
                   <TableCell>
-                    {feedback.feedback_status}
+                    {feedback.priority}
                   </TableCell>
                   <TableCell>
                     {feedback.priority}
