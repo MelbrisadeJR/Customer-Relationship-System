@@ -16,6 +16,8 @@ import {
 import { Search as SearchIcon } from 'react-feather';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -24,12 +26,25 @@ const useStyles = makeStyles((theme) => ({
   },
   exportButton: {
     marginRight: theme.spacing(1)
+  },
+  button: {
+    color: '#fff',
+    backgroundColor: theme.palette.secondary.main,
+    borderRadius: 5,
+    textTransform: 'none',
+    '&:hover': {
+      backgroundColor: theme.palette.secondary.dark
+    }
   }
 }));
 
 const Toolbar = ({ className, ...rest }) => {
   const classes = useStyles();
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [products, setProducts] = useState(false);
+  const [description, setDescription] = useState('');
+
+  const productOptions = ['Product1', 'Product2', 'Product3'];
 
   return (
     <div
@@ -79,17 +94,54 @@ const Toolbar = ({ className, ...rest }) => {
           </CardContent>
         </Card>
       </Box>
-      <Dialog fullWidth maxWidth="md" open={dialogOpen} onClose={() => setDialogOpen(false)}>
+      <Dialog fullWidth maxWidth="xs" open={dialogOpen} onClose={() => setDialogOpen(false)}>
         <Grid container justify="center">
-          <Grid item>
-            <Typography variant="h1" gutterBottom>
-              Add a new project
+          <Grid item style={{ marginTop: '5%' }}>
+            <Typography variant="h2" gutterBottom>
+              Add a new Feedback
             </Typography>
           </Grid>
         </Grid>
         <DialogContent>
-          11
+          <Grid container justify="space-between">
+            <Grid item container direction="column" sm>
+              <Grid item>
+                <Select style={{ width: '12em' }} labelId="producs" id="products" displayEmpty renderValue={products.length > 0 ? undefined : () => 'Select a product'} value={products} onChange={(event) => setProducts(event.target.value)}>
+                  {productOptions.map((option) => (
+                    <MenuItem key={option} value={option}>{option}</MenuItem>
+                  ))}
+                </Select>
+              </Grid>
+              <Grid item style={{ marginTop: '5%' }}>
+                <TextField
+                  label="Description"
+                  fullWidth
+                  id="description"
+                  labelId="description"
+                  multiline
+                  rows={4}
+                  value={description}
+                  variant="outlined"
+                  onChange={(event) => setDescription(event.target.value)}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
         </DialogContent>
+        <Grid container justify="center" style={{ marginBottom: '5%' }}>
+          <Grid item>
+            <Button onClick={() => setDialogOpen(false)} color="primary" style={{ fontWeight: 300 }}>Cancel</Button>
+          </Grid>
+          <Grid item>
+            <Button
+              color="contained"
+              className={classes.button}
+              style={{ fontWeight: 300 }}
+            >
+              Add Feedback +
+            </Button>
+          </Grid>
+        </Grid>
       </Dialog>
     </div>
   );
