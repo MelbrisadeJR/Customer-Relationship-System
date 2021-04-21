@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
   AppBar,
+  Box,
   Badge,
   Hidden,
   IconButton,
@@ -44,38 +45,40 @@ const TopBar = ({
           onMobileClose={() => setMobileNavOpen(false)}
           openMobile={isMobileNavOpen}
         />
-        <Hidden mdDown>
-          <IconButton color="white">
-            <Badge
-              badgeContent={notifications.length}
-              color="white"
-              variant="dot"
-            >
-              <RouterLink to="/app/emails">
-                <MailOutlineIcon htmlColor="white" />
+        <Box flexGrow={1} />
+        <Toolbar>
+          <Hidden mdDown>
+            <IconButton color="white">
+              <Badge
+                badgeContent={notifications.length}
+                color="white"
+                variant="dot"
+              >
+                <RouterLink to="/app/emails">
+                  <MailOutlineIcon htmlColor="white" />
+                </RouterLink>
+              </Badge>
+            </IconButton>
+            <IconButton>
+              <RouterLink to="/app/account">
+                <AccountIcon color="white" />
               </RouterLink>
-            </Badge>
-          </IconButton>
-          <IconButton>
-            <RouterLink to="/app/account">
-              <AccountIcon color="white" />
-            </RouterLink>
-          </IconButton>
-          <IconButton color="inherit">
-            <InputIcon />
-          </IconButton>
-        </Hidden>
-        <Hidden lgUp>
-          <IconButton
-            color="inherit"
-            onClick={() => {
-              setMobileNavOpen(true);
-              console.log('here');
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-        </Hidden>
+            </IconButton>
+            <IconButton color="inherit">
+              <InputIcon />
+            </IconButton>
+          </Hidden>
+          <Hidden lgUp>
+            <IconButton
+              color="inherit"
+              onClick={() => {
+                setMobileNavOpen(true);
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Hidden>
+        </Toolbar>
       </Toolbar>
     </AppBar>
   );
