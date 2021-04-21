@@ -116,13 +116,13 @@ const Results = ({ className, ...rest }) => {
                   FeedbackSequence
                 </TableCell>
                 <TableCell>
-                  Description
+                  ProductName
                 </TableCell>
                 <TableCell>
                   Rate
                 </TableCell>
                 <TableCell>
-                  ProductName
+                  Description
                 </TableCell>
                 <TableCell>
                   CreateAt
@@ -163,13 +163,13 @@ const Results = ({ className, ...rest }) => {
                     </Box>
                   </TableCell>
                   <TableCell>
+                    {feedback.priority}
+                  </TableCell>
+                  <TableCell>
+                    {feedback.priority}
+                  </TableCell>
+                  <TableCell>
                     {feedback.description}
-                  </TableCell>
-                  <TableCell>
-                    {feedback.priority}
-                  </TableCell>
-                  <TableCell>
-                    {feedback.priority}
                   </TableCell>
                   <TableCell>
                     {moment(feedback.create_At, 'DD/MM/YYYY').format('DD/MM/YYYY')}
