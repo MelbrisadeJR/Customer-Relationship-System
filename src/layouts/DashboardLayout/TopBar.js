@@ -13,15 +13,12 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import { User as AccountIcon } from 'react-feather';
 import InputIcon from '@material-ui/icons/Input';
+import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import Logo from 'src/components/Logo';
 import NavBar from './NavBar';
 
 const useStyles = makeStyles(() => ({
   root: {},
-  avatar: {
-    width: 60,
-    height: 60
-  }
 }));
 
 const TopBar = ({
@@ -30,6 +27,7 @@ const TopBar = ({
   ...rest
 }) => {
   const classes = useStyles();
+  const [isMobileNavOpen, setMobileNavOpen] = useState(false);
   const [notifications] = useState([]);
 
   return (
@@ -42,16 +40,26 @@ const TopBar = ({
         <RouterLink to="/">
           <Logo />
         </RouterLink>
-        <NavBar />
+        <NavBar
+          onMobileClose={() => setMobileNavOpen(false)}
+          openMobile={isMobileNavOpen}
+        />
         <Hidden mdDown>
-          <IconButton color="inherit">
+          <IconButton color="white">
             <Badge
               badgeContent={notifications.length}
-              color="primary"
+              color="white"
               variant="dot"
             >
-              <AccountIcon />
+              <RouterLink to="/app/emails">
+                <MailOutlineIcon htmlColor="white" />
+              </RouterLink>
             </Badge>
+          </IconButton>
+          <IconButton>
+            <RouterLink to="/app/account">
+              <AccountIcon color="white" />
+            </RouterLink>
           </IconButton>
           <IconButton color="inherit">
             <InputIcon />
@@ -60,7 +68,10 @@ const TopBar = ({
         <Hidden lgUp>
           <IconButton
             color="inherit"
-            onClick={onMobileNavOpen}
+            onClick={() => {
+              setMobileNavOpen(true);
+              console.log('here');
+            }}
           >
             <MenuIcon />
           </IconButton>

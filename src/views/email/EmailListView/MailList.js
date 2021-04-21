@@ -61,7 +61,6 @@ const MailList = ({ className, ...rest }) => {
             />
           </ListItem>
         ))}
-        ;
       </List>
     </Card>
   );
