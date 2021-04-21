@@ -175,7 +175,7 @@ const Results = ({ className, ...rest }) => {
                     {moment(feedback.create_At, 'DD/MM/YYYY').format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell>
-                    {moment(feedback.update_At, 'DD/MM/YYYY').format('DD/MM/YYYY')}
+                    {feedback.update_At === null ? 'N/A' : moment(feedback.update_At, 'DD/MM/YYYY').format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell>
                     <button type="button" className="btn btn-success" onClick={() => deleteFeeback(feedback.feedbackSequenceNum)}>Delete</button>
