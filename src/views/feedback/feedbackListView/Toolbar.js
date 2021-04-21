@@ -18,6 +18,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import Rating from '@material-ui/lab/Rating';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -38,11 +39,26 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const starLabels = {
+  0.5: 'Useless',
+  1: 'Useless+',
+  1.5: 'Poor',
+  2: 'Poor+',
+  2.5: 'Ok',
+  3: 'Ok+',
+  3.5: 'Good',
+  4: 'Good+',
+  4.5: 'Excellent',
+  5: 'Excellent+',
+};
+
 const Toolbar = ({ className, ...rest }) => {
   const classes = useStyles();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [products, setProducts] = useState(false);
   const [description, setDescription] = useState('');
+  const [starValue, setstarValue] = React.useState(2);
+  const [starHover, setStarHover] = React.useState(-1);
 
   const productOptions = ['Product1', 'Product2', 'Product3'];
 
@@ -111,6 +127,21 @@ const Toolbar = ({ className, ...rest }) => {
                     <MenuItem key={option} value={option}>{option}</MenuItem>
                   ))}
                 </Select>
+              </Grid>
+              <Grid item style={{ marginTop: '5%' }}>
+                <Rating
+                  name="hover-feedback"
+                  value={starValue}
+                  precision={0.5}
+                  onChange={(event, newValue) => {
+                    setstarValue(newValue);
+                  }}
+                  onChangeActive={(event, newHover) => {
+                    setStarHover(newHover);
+                  }}
+                />
+                {starValue !== null
+                  && <Box ml={2}>{starLabels[starHover !== -1 ? starHover : starValue]}</Box>}
               </Grid>
               <Grid item style={{ marginTop: '5%' }}>
                 <TextField
