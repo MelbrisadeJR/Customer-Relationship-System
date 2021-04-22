@@ -24,7 +24,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Results = ({ className, rows, ...rest }) => {
+const Results = ({
+  className,
+  rows,
+  deleteFeedbacks,
+  ...rest
+}) => {
   const classes = useStyles();
   const [selectedFeedbackIds, setselectedFeedbackIds] = useState([]);
   const [limit, setLimit] = useState(10);
@@ -180,7 +185,8 @@ const Results = ({ className, rows, ...rest }) => {
 
 Results.propTypes = {
   className: PropTypes.string,
-  rows: PropTypes.array.isRequired
+  rows: PropTypes.array.isRequired,
+  deleteFeedbacks: PropTypes.func
 };
 
 export default Results;
