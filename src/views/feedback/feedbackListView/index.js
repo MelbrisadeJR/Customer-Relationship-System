@@ -35,8 +35,12 @@ const FeedbackListView = () => {
     retrieveRows();
   }, []);
 
-  const greet = () => {
+  const addAFeedback = () => {
     alert('Create a new feedback');
+  };
+
+  const deleteFeedbacks = () => {
+    alert('Delete feedbacks');
   };
 
   return (
@@ -45,9 +49,9 @@ const FeedbackListView = () => {
       title="Feedbacks"
     >
       <Container maxWidth={false}>
-        <Toolbar greet={greet} />
+        <Toolbar addAFeedback={addAFeedback} />
         <Box mt={3}>
-          <Results rows={rows} />
+          <Results rows={rows} deleteFeedbacks={deleteFeedbacks} />
         </Box>
       </Container>
     </Page>
