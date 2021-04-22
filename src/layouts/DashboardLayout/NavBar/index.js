@@ -106,6 +106,7 @@ const NavBar = () => {
               href={href}
               key={title}
               title={title}
+              onClick={() => setCurrentMenu(title)}
             />
           ))}
         </Tabs>
