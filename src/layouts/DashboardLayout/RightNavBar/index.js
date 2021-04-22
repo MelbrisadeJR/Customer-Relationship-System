@@ -1,45 +1,39 @@
 import React, { useState } from 'react';
-import { NavLink as RouterLink } from 'react-router-dom';
-// import { useLocation } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import {
-  Button,
+
   Hidden,
+  IconButton,
   Menu,
   MenuItem,
-  makeStyles,
-  Tabs,
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import NavItem from './NavItem';
+import MenuIcon from '@material-ui/icons/Menu';
+import { User as AccountIcon } from 'react-feather';
+import InputIcon from '@material-ui/icons/Input';
+import MailOutlineIcon from '@material-ui/icons/MailOutline';
 
-const navItems = [
+const rightNav = [
   {
-    href: '/app/dashboard',
-    title: 'Dashboard'
+    href: '/app/emails',
+    title: 'Email',
+    icon: MailOutlineIcon,
   },
   {
-    href: '/app/customers',
-    title: 'Customers'
+    href: '/app/account',
+    title: 'Account',
+    icon: AccountIcon,
   },
   {
-    href: '/app/products',
-    title: 'Products'
+    href: '/login',
+    title: 'Logout',
+    icon: InputIcon,
   },
-  {
-    href: '/app/orders',
-    title: 'Orders'
-  },
-  {
-    href: '/app/feedbacks',
-    title: 'Feedbacks'
-  }
 ];
-
 const StyledMenu = withStyles({
   paper: {
     border: '1px solid #3867d6',
     backgroundColor: '#3867d6',
-    width: '250px',
   },
 })((props) => (
   <Menu
@@ -60,7 +54,6 @@ const StyledMenu = withStyles({
 const StyledMenuItem = withStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.primary.main,
-    justifyContent: 'center',
     '&:focus': {
       backgroundColor: theme.palette.primary.main,
       '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
@@ -70,27 +63,14 @@ const StyledMenuItem = withStyles((theme) => ({
   },
 }))(MenuItem);
 
-const StyledButton = withStyles((theme) => ({
-  root: {
-    color: theme.palette.common.white,
-    width: '250px',
-  },
-}))(Button);
-
-const useStyles = makeStyles((theme) => ({
-  title: {
-    color: theme.palette.common.white,
-  },
-}));
-
-const NavBar = () => {
-  const classes = useStyles();
-  const [anchorEl, setAnchorEl] = useState(null);
+const RightNavBar = () => {
+  // const classes = useStyles();
   // const location = useLocation();
-  const [openMainMenu, setOpenMainMenu] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [openRightMenu, setRightNavOpen] = useState(false);
 
   // useEffect(() => {
-  //   if (!openMainMenu) {
+  //   if (openRightNav && onRightNavClose) {
   //     onRightNavClose();
   //   }
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -98,50 +78,44 @@ const NavBar = () => {
 
   return (
     <>
-      <Hidden smDown>
-        <Tabs>
-          {navItems.map(({ href, title }) => (
-            <NavItem
-              href={href}
-              key={title}
-              title={title}
-            />
-          ))}
-        </Tabs>
+      <Hidden mdDown>
+        {rightNav.map(({ href, icon: Icon, title }) => (
+          <IconButton key={title}>
+            <RouterLink to={href}>
+              <Icon color="white" htmlColor="white" />
+            </RouterLink>
+          </IconButton>
+        ))}
       </Hidden>
-      <Hidden mdUp>
-        <StyledButton
-          aria-controls="simple-menu"
-          aria-haspopup="true"
-          color="white"
+      <Hidden lgUp>
+        <IconButton
+          color="inherit"
           onClick={(event) => {
-            setOpenMainMenu(true);
+            setRightNavOpen(true);
             setAnchorEl(event.currentTarget);
           }}
         >
-          Dashboard
-        </StyledButton>
+          <MenuIcon />
+        </IconButton>
         <StyledMenu
           id="simple-menu"
           anchorEl={anchorEl}
           keepMounted
-          open={openMainMenu}
+          open={openRightMenu}
           onClose={() => {
-            setOpenMainMenu(false);
+            setRightNavOpen(false);
             setAnchorEl(null);
           }}
         >
-          {navItems.map(({ href, title }) => (
+          {rightNav.map(({ href, title, icon: Icon }) => (
             <StyledMenuItem
-              onClick={() => setOpenMainMenu(false)}
               href={href}
               key={title}
               title={title}
+              onClick={() => setRightNavOpen(false)}
             >
               <RouterLink to={href}>
-                <span className={classes.title}>
-                  {title}
-                </span>
+                <Icon color="white" htmlColor="white" />
               </RouterLink>
             </StyledMenuItem>
           ))}
@@ -151,4 +125,9 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+RightNavBar.defaultProps = {
+  onRightNavClose: () => {},
+  openRightNav: false,
+};
+
+export default RightNavBar;
