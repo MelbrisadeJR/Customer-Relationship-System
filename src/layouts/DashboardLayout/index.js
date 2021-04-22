@@ -34,11 +34,10 @@ const useStyles = makeStyles((theme) => ({
 
 const DashboardLayout = () => {
   const classes = useStyles();
+
   return (
     <div className={classes.root}>
-      <TopBar
-        flex-grow="1"
-      />
+      <TopBar />
       <div className={classes.wrapper}>
         <div className={classes.contentContainer}>
           <div className={classes.content}>
