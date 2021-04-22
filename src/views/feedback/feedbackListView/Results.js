@@ -162,7 +162,7 @@ const Results = ({
                     {feedback.update_At === null ? 'N/A' : moment(feedback.update_At, 'DD/MM/YYYY').format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell>
-                    <button type="button" className="btn btn-success" onClick={() => 'delete'}>Delete</button>
+                    <button type="button" className="btn btn-success" onClick={deleteFeedbacks}>Delete</button>
                   </TableCell>
                 </TableRow>
               ))}
