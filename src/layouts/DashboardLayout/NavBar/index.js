@@ -15,23 +15,23 @@ import NavItem from './NavItem';
 const navItems = [
   {
     href: '/app/dashboard',
-    title: 'Dashboard'
+    title: 'DASHBOARD'
   },
   {
     href: '/app/customers',
-    title: 'Customers'
+    title: 'CUSTOMERS'
   },
   {
     href: '/app/products',
-    title: 'Products'
+    title: 'PRODUCTS'
   },
   {
     href: '/app/orders',
-    title: 'Orders'
+    title: 'ORDERS'
   },
   {
     href: '/app/feedbacks',
-    title: 'Feedbacks'
+    title: 'FEEDBACKS'
   }
 ];
 
@@ -88,6 +88,7 @@ const NavBar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   // const location = useLocation();
   const [openMainMenu, setOpenMainMenu] = useState(false);
+  const [currentMenu, setCurrentMenu] = useState(navItems[0].title);
 
   // useEffect(() => {
   //   if (!openMainMenu) {
@@ -119,7 +120,7 @@ const NavBar = () => {
             setAnchorEl(event.currentTarget);
           }}
         >
-          Dashboard
+          {currentMenu}
         </StyledButton>
         <StyledMenu
           id="simple-menu"
@@ -133,7 +134,10 @@ const NavBar = () => {
         >
           {navItems.map(({ href, title }) => (
             <StyledMenuItem
-              onClick={() => setOpenMainMenu(false)}
+              onClick={() => {
+                setOpenMainMenu(false);
+                setCurrentMenu(title);
+              }}
               href={href}
               key={title}
               title={title}
