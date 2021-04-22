@@ -52,7 +52,7 @@ const starLabels = {
   5: 'Excellent+',
 };
 
-const Toolbar = ({ className, ...rest }) => {
+const Toolbar = ({ className, greet, ...rest }) => {
   const classes = useStyles();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [products, setProducts] = useState(false);
@@ -168,6 +168,7 @@ const Toolbar = ({ className, ...rest }) => {
               color="contained"
               className={classes.button}
               style={{ fontWeight: 300 }}
+              onClick={greet}
             >
               Add Feedback +
             </Button>
@@ -179,7 +180,8 @@ const Toolbar = ({ className, ...rest }) => {
 };
 
 Toolbar.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  greet: PropTypes.func
 };
 
 export default Toolbar;
