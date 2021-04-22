@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Container,
@@ -7,6 +7,7 @@ import {
 import Page from 'src/components/Page';
 import Results from './Results';
 import Toolbar from './Toolbar';
+import FeedbackService from '../../../services/feedback';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,6 +20,20 @@ const useStyles = makeStyles((theme) => ({
 
 const FeedbackListView = () => {
   const classes = useStyles();
+  const [rows, setRows] = useState([]);
+
+  const retrieveRows = () => {
+    FeedbackService.getAll()
+      .then((response) => {
+        setRows(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  useEffect(() => {
+    retrieveRows();
+  }, []);
 
   return (
     <Page
@@ -28,7 +43,7 @@ const FeedbackListView = () => {
       <Container maxWidth={false}>
         <Toolbar />
         <Box mt={3}>
-          <Results />
+          <Results rows={rows} />
         </Box>
       </Container>
     </Page>

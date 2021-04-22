@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -16,7 +16,6 @@ import {
   Typography,
   makeStyles
 } from '@material-ui/core';
-import FeedbackService from '../../../services/feedback';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -25,27 +24,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Results = ({ className, ...rest }) => {
+const Results = ({ className, rows, ...rest }) => {
   const classes = useStyles();
   const [selectedFeedbackIds, setselectedFeedbackIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
-  const [rows, setRows] = useState([]);
-
-  const retrieveRows = () => {
-    FeedbackService.getAll()
-      .then((response) => {
-        setRows(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-
-  useEffect(() => {
-    retrieveRows();
-  }, []);
-
   const handleSelectAll = (event) => {
     let newselectedFeedbackIds;
 
@@ -85,10 +68,6 @@ const Results = ({ className, ...rest }) => {
 
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
-  };
-
-  const deleteFeeback = (id) => {
-    FeedbackService.deleteFeedback(id);
   };
 
   return (
@@ -178,7 +157,7 @@ const Results = ({ className, ...rest }) => {
                     {feedback.update_At === null ? 'N/A' : moment(feedback.update_At, 'DD/MM/YYYY').format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell>
-                    <button type="button" className="btn btn-success" onClick={() => deleteFeeback(feedback.feedbackSequenceNum)}>Delete</button>
+                    <button type="button" className="btn btn-success" onClick={() => 'delete'}>Delete</button>
                   </TableCell>
                 </TableRow>
               ))}
