@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink as RouterLink } from 'react-router-dom';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 // import { useLocation } from 'react-router-dom';
 import {
   Button,
@@ -122,6 +123,7 @@ const NavBar = () => {
           }}
         >
           {currentMenu}
+          <ArrowDropDownIcon />
         </StyledButton>
         <StyledMenu
           id="simple-menu"
