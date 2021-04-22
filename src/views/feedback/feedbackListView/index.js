@@ -35,13 +35,17 @@ const FeedbackListView = () => {
     retrieveRows();
   }, []);
 
+  const greet = () => {
+    alert('Create a new feedback');
+  };
+
   return (
     <Page
       className={classes.root}
       title="Feedbacks"
     >
       <Container maxWidth={false}>
-        <Toolbar />
+        <Toolbar greet={greet} />
         <Box mt={3}>
           <Results rows={rows} />
         </Box>
