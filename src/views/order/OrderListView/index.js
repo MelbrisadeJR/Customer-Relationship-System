@@ -5,8 +5,8 @@ import {
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
-import Toolbar from './Toolbar';
 import Results from './Results';
+import Toolbar from './Toolbar';
 import data from './data';
 
 const useStyles = makeStyles((theme) => ({
@@ -18,23 +18,23 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ProductListView = () => {
+const OrderListView = () => {
   const classes = useStyles();
-  const [products] = useState(data);
+  const [customers] = useState(data);
 
   return (
     <Page
       className={classes.root}
-      title="Products"
+      title="Customers"
     >
       <Container maxWidth={false}>
         <Toolbar />
         <Box mt={3}>
-          <Results products={products} />
+          <Results customers={customers} />
         </Box>
       </Container>
     </Page>
   );
 };
 
-export default ProductListView;
+export default OrderListView;
