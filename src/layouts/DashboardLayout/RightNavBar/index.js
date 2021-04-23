@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
-
   Hidden,
   IconButton,
+  makeStyles,
   Menu,
   MenuItem,
 } from '@material-ui/core';
@@ -54,17 +54,17 @@ const StyledMenu = withStyles({
 const StyledMenuItem = withStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.primary.main,
-    '&:focus': {
-      backgroundColor: theme.palette.primary.main,
-      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-        color: theme.palette.common.white,
-      },
-    },
   },
 }))(MenuItem);
 
+const useStyles = makeStyles((theme) => ({
+  icon: {
+    color: theme.palette.common.white,
+  },
+}));
+
 const RightNavBar = () => {
-  // const classes = useStyles();
+  const classes = useStyles();
   // const location = useLocation();
   const [anchorEl, setAnchorEl] = useState(null);
   const [openRightMenu, setRightNavOpen] = useState(false);
@@ -82,7 +82,7 @@ const RightNavBar = () => {
         {rightNav.map(({ href, icon: Icon, title }) => (
           <IconButton key={title}>
             <RouterLink to={href}>
-              <Icon color="white" htmlColor="white" />
+              <Icon className={classes.icon} />
             </RouterLink>
           </IconButton>
         ))}
@@ -115,7 +115,7 @@ const RightNavBar = () => {
               onClick={() => setRightNavOpen(false)}
             >
               <RouterLink to={href}>
-                <Icon color="white" htmlColor="white" />
+                <Icon className={classes.icon} />
               </RouterLink>
             </StyledMenuItem>
           ))}
