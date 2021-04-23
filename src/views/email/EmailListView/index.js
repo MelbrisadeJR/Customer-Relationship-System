@@ -5,14 +5,14 @@ import {
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
-import MailList from './MailList';
+import MailCategory from './MailCategory';
 import MailPreview from './MailPreview';
 import MailContent from './MailContent';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
-    minHeight: '100%',
+    maxWidth: '100%',
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3)
   }
@@ -24,7 +24,7 @@ const MailGroup = () => {
   return (
     <Page
       className={classes.root}
-      title="Dashboard"
+      title="MelbrisadeCRM - Email"
     >
       <Container maxWidth={false}>
         <Grid
@@ -34,17 +34,17 @@ const MailGroup = () => {
           <Grid
             item
             lg={3}
-            md={6}
+            md={3}
             xl={3}
             xs={12}
           >
-            <MailList />
+            <MailCategory />
           </Grid>
           <Grid
             item
             lg={3}
-            md={12}
-            xl={9}
+            md={3}
+            xl={3}
             xs={12}
           >
             <MailPreview />
@@ -52,8 +52,8 @@ const MailGroup = () => {
           <Grid
             item
             lg={6}
-            md={12}
-            xl={9}
+            md={6}
+            xl={6}
             xs={12}
           >
             <MailContent />
