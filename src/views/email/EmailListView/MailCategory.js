@@ -6,6 +6,7 @@ import {
   Card,
   List,
   ListItem,
+  ListItemIcon,
   ListItemText,
   makeStyles
 } from '@material-ui/core';
@@ -33,29 +34,46 @@ const data = [
 
 const useStyles = makeStyles(({
   root: {
-    height: '100%'
+    width: '100%',
+    maxWidth: 360,
   },
   image: {
     height: 48,
     width: 48
-  }
+  },
+  icon: {
+    marginRight: 10,
+  },
 }));
 
-const MailList = ({ className, ...rest }) => {
+const MailCategory = ({ className, ...rest }) => {
   const classes = useStyles();
+  const [selectedIndex, setSelectedIndex] = React.useState(1);
+
+  const handleListItemClick = (event, index) => {
+    setSelectedIndex(index);
+  };
 
   return (
     <Card
       className={clsx(classes.root, className)}
       {...rest}
     >
-      <List>
+      <List
+        component="nav"
+        {...rest}
+      >
         {data.map(({ id, name, icon: Icon }, i) => (
           <ListItem
+            button
+            selected={selectedIndex === i}
+            onClick={(event) => handleListItemClick(event, i)}
             divider={i < data.length - 1}
             key={id}
           >
-            <Icon />
+            <ListItemIcon>
+              <Icon className={classes.icon} />
+            </ListItemIcon>
             <ListItemText
               primary={name}
             />
@@ -66,8 +84,8 @@ const MailList = ({ className, ...rest }) => {
   );
 };
 
-MailList.propTypes = {
+MailCategory.propTypes = {
   className: PropTypes.string
 };
 
-export default MailList;
+export default MailCategory;
