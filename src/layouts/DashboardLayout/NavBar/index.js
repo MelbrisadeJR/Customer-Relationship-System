@@ -62,12 +62,6 @@ const StyledMenuItem = withStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.primary.main,
     justifyContent: 'center',
-    '&:focus': {
-      backgroundColor: theme.palette.primary.main,
-      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-        color: theme.palette.common.white,
-      },
-    },
   },
 }))(MenuItem);
 
@@ -116,7 +110,6 @@ const NavBar = () => {
         <StyledButton
           aria-controls="simple-menu"
           aria-haspopup="true"
-          color="white"
           onClick={(event) => {
             setOpenMainMenu(true);
             setAnchorEl(event.currentTarget);
