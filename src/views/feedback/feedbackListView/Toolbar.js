@@ -57,7 +57,7 @@ const Toolbar = ({ className, addAFeedback, ...rest }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [products, setProducts] = useState(false);
   const [description, setDescription] = useState('');
-  const [starValue, setstarValue] = React.useState(2);
+  const [starValue, setstarValue] = React.useState(0);
   const [starHover, setStarHover] = React.useState(-1);
 
   const productOptions = ['Product1', 'Product2', 'Product3'];

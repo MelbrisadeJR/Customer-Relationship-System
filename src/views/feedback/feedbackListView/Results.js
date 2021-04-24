@@ -152,7 +152,9 @@ const Results = ({
                   </TableCell>
                   <TableCell>
                     <Rating
-                      name="read-only"
+                      name="half-rating-read"
+                      defaultValue={0}
+                      precision={0.5}
                       value={feedback.rating}
                       readOnly
                     />
