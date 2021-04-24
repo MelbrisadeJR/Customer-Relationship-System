@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import Rating from '@material-ui/lab/Rating';
 import {
   Box,
   Card,
@@ -97,13 +98,13 @@ const Results = ({
                   />
                 </TableCell>
                 <TableCell>
-                  FeedbackSequence
+                  FeedbackID
                 </TableCell>
                 <TableCell>
                   ProductName
                 </TableCell>
                 <TableCell>
-                  Rate
+                  Rating
                 </TableCell>
                 <TableCell>
                   Description
@@ -115,7 +116,7 @@ const Results = ({
                   UpdateAt
                 </TableCell>
                 <TableCell>
-                  Action
+                  View
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -142,15 +143,19 @@ const Results = ({
                         color="textPrimary"
                         variant="body1"
                       >
-                        {feedback.feedbackSequenceNum}
+                        {feedback.id}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {feedback.priority}
+                    {feedback.productName}
                   </TableCell>
                   <TableCell>
-                    {feedback.priority}
+                    <Rating
+                      name="read-only"
+                      value={feedback.rating}
+                      readOnly
+                    />
                   </TableCell>
                   <TableCell>
                     {feedback.description}
