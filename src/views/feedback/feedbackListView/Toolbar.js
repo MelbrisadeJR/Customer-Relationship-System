@@ -19,6 +19,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Rating from '@material-ui/lab/Rating';
+import FeedbackService from '../../../services/feedback';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -52,15 +53,32 @@ const starLabels = {
   5: 'Excellent+',
 };
 
-const Toolbar = ({ className, addAFeedback, ...rest }) => {
+const Toolbar = ({
+  className,
+  ...rest
+}) => {
   const classes = useStyles();
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [products, setProducts] = useState(false);
+  const [product, setProduct] = useState(false);
   const [description, setDescription] = useState('');
   const [starValue, setstarValue] = React.useState(0);
   const [starHover, setStarHover] = React.useState(-1);
 
   const productOptions = ['Product1', 'Product2', 'Product3'];
+
+  const addAFeedback = () => {
+    const newFeedback = {
+      description: String(description),
+      rating: parseFloat(starValue),
+      productName: String(product)
+    };
+    FeedbackService.createFeedback(newFeedback);
+    setDialogOpen(false);
+    setProduct('');
+    setDescription('');
+    setstarValue(0);
+    window.location.reload(false);
+  };
 
   return (
     <div
@@ -122,7 +140,7 @@ const Toolbar = ({ className, addAFeedback, ...rest }) => {
           <Grid container justify="space-between">
             <Grid item container direction="column" sm>
               <Grid item>
-                <Select style={{ width: '12em' }} labelId="producs" id="products" displayEmpty renderValue={products.length > 0 ? undefined : () => 'Select a product'} value={products} onChange={(event) => setProducts(event.target.value)}>
+                <Select style={{ width: '12em' }} labelid="product" id="product" displayEmpty renderValue={product.length > 0 ? undefined : () => 'Select a product'} value={product} onChange={(event) => setProduct(event.target.value)}>
                   {productOptions.map((option) => (
                     <MenuItem key={option} value={option}>{option}</MenuItem>
                   ))}
@@ -148,7 +166,7 @@ const Toolbar = ({ className, addAFeedback, ...rest }) => {
                   label="Description"
                   fullWidth
                   id="description"
-                  labelId="description"
+                  labelid="description"
                   multiline
                   rows={4}
                   value={description}
@@ -165,10 +183,10 @@ const Toolbar = ({ className, addAFeedback, ...rest }) => {
           </Grid>
           <Grid item>
             <Button
-              color="contained"
+              color="primary"
               className={classes.button}
               style={{ fontWeight: 300 }}
-              onClick={addAFeedback = (products, starValue, description)}
+              onClick={addAFeedback}
             >
               Add Feedback +
             </Button>
@@ -181,7 +199,8 @@ const Toolbar = ({ className, addAFeedback, ...rest }) => {
 
 Toolbar.propTypes = {
   className: PropTypes.string,
-  addAFeedback: PropTypes.func
+  setRows: PropTypes.func,
+  rows: PropTypes.array.isRequired,
 };
 
 export default Toolbar;

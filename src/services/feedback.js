@@ -1,3 +1,4 @@
+import axios from 'axios';
 import http from '../utils/http-common';
 
 const getAll = () => {
@@ -8,8 +9,13 @@ const deleteFeedback = (feedbackId) => {
   return http.delete(`/feedback/${feedbackId}`);
 };
 
-const createFeedback = () => {
-  return http.post('/feedback');
+const createFeedback = (feedback) => {
+  axios.post('http://localhost:8080/api/feedback', feedback)
+    .then((response) => {
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    });
 };
 
 const FeedbackService = {

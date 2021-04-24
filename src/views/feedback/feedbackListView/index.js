@@ -35,10 +35,6 @@ const FeedbackListView = () => {
     retrieveRows();
   }, []);
 
-  const addAFeedback = function(product, starValue, description) {
-    alert('Create a new feedback');
-  };
-
   const deleteFeedbacks = () => {
     alert('Delete feedbacks');
   };
@@ -49,7 +45,7 @@ const FeedbackListView = () => {
       title="Feedbacks"
     >
       <Container maxWidth={false}>
-        <Toolbar addAFeedback={addAFeedback} />
+        <Toolbar />
         <Box mt={3}>
           <Results rows={rows} deleteFeedbacks={deleteFeedbacks} />
         </Box>
