@@ -69,7 +69,7 @@ const Toolbar = ({
   const addAFeedback = () => {
     const newFeedback = {
       description: String(description),
-      rating: parseFloat(starValue),
+      rating: starValue,
       productName: String(product)
     };
     FeedbackService.createFeedback(newFeedback);
