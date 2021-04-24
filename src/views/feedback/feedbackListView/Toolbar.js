@@ -168,7 +168,7 @@ const Toolbar = ({ className, addAFeedback, ...rest }) => {
               color="contained"
               className={classes.button}
               style={{ fontWeight: 300 }}
-              onClick={addAFeedback}
+              onClick={addAFeedback = (products, starValue, description)}
             >
               Add Feedback +
             </Button>

@@ -35,7 +35,7 @@ const FeedbackListView = () => {
     retrieveRows();
   }, []);
 
-  const addAFeedback = (product, starValue, description) => {
+  const addAFeedback = function(product, starValue, description) {
     alert('Create a new feedback');
   };
 
