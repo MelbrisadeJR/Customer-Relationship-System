@@ -13,17 +13,17 @@ pipeline {
     stage('npm build') {
       steps {
         nodejs('Node-CRM') {
+          sh "npm install"
+          sh "npm run build"
         }
-        sh "npm install"
-        sh "npm run build"
-        }
+      }
     }
     stage('Result') {
       steps {
         nodejs('Node-CRM') {
+          sh "npm start"
         }
-        sh "npm start"
-        }
+      }
     }
   }
 }
