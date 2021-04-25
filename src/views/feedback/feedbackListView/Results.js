@@ -149,7 +149,7 @@ const Results = ({
                       readOnly
                     />
                   </TableCell>
-                  <TableCell>
+                  <TableCell style={{ maxWidth: '5em' }}>
                     {feedback.description}
                   </TableCell>
                   <TableCell>

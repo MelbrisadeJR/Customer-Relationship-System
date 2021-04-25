@@ -80,9 +80,9 @@ const Toolbar = ({
 
   const addAFeedback = () => {
     const newFeedback = {
-      description: String(description),
+      description,
       rating: starValue,
-      productName: String(product)
+      productName: product
     };
     if (product === '') {
       setErrorSnakebarOpen(true);
