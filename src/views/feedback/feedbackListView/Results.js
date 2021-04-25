@@ -3,8 +3,8 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import Rating from '@material-ui/lab/Rating';
 import {
-  Avatar,
   Box,
   Card,
   Checkbox,
@@ -17,7 +17,6 @@ import {
   Typography,
   makeStyles
 } from '@material-ui/core';
-import getInitials from 'src/utils/getInitials';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -26,46 +25,52 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Results = ({ className, customers, ...rest }) => {
+const Results = ({
+  className,
+  rows,
+  deleteFeedbacks,
+  ...rest
+}) => {
   const classes = useStyles();
-  const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+  const [selectedFeedbackIds, setselectedFeedbackIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
-
   const handleSelectAll = (event) => {
-    let newSelectedCustomerIds;
+    let newselectedFeedbackIds;
 
     if (event.target.checked) {
-      newSelectedCustomerIds = customers.map((customer) => customer.id);
+      newselectedFeedbackIds = rows.map((feedback) => feedback.id);
     } else {
-      newSelectedCustomerIds = [];
+      newselectedFeedbackIds = [];
     }
 
-    setSelectedCustomerIds(newSelectedCustomerIds);
+    setselectedFeedbackIds(newselectedFeedbackIds);
   };
 
   const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedCustomerIds.indexOf(id);
-    let newSelectedCustomerIds = [];
+    const selectedIndex = selectedFeedbackIds.indexOf(id);
+    let newselectedFeedbackIds = [];
 
     if (selectedIndex === -1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
+      newselectedFeedbackIds = newselectedFeedbackIds.concat(selectedFeedbackIds, id);
     } else if (selectedIndex === 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
-    } else if (selectedIndex === selectedCustomerIds.length - 1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
+      newselectedFeedbackIds = newselectedFeedbackIds.concat(selectedFeedbackIds.slice(1));
+    } else if (selectedIndex === selectedFeedbackIds.length - 1) {
+      newselectedFeedbackIds = newselectedFeedbackIds
+        .concat(selectedFeedbackIds.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedCustomerIds.slice(0, selectedIndex),
-        selectedCustomerIds.slice(selectedIndex + 1)
+      newselectedFeedbackIds = newselectedFeedbackIds.concat(
+        selectedFeedbackIds.slice(0, selectedIndex),
+        selectedFeedbackIds.slice(selectedIndex + 1)
       );
     }
 
-    setSelectedCustomerIds(newSelectedCustomerIds);
+    setselectedFeedbackIds(newselectedFeedbackIds);
   };
 
   const handleLimitChange = (event) => {
-    setLimit(event.target.value);
+    setLimit(parseInt(event.target.value, 10));
+    setPage(0);
   };
 
   const handlePageChange = (event, newPage) => {
@@ -84,43 +89,49 @@ const Results = ({ className, customers, ...rest }) => {
               <TableRow>
                 <TableCell padding="checkbox">
                   <Checkbox
-                    checked={selectedCustomerIds.length === customers.length}
+                    checked={selectedFeedbackIds.length === rows.length}
                     color="primary"
                     indeterminate={
-                      selectedCustomerIds.length > 0
-                      && selectedCustomerIds.length < customers.length
+                      selectedFeedbackIds.length > 0
+                      && selectedFeedbackIds.length < rows.length
                     }
                     onChange={handleSelectAll}
                   />
                 </TableCell>
                 <TableCell>
-                  Name
+                  FeedbackID
                 </TableCell>
                 <TableCell>
-                  Email
+                  ProductName
                 </TableCell>
                 <TableCell>
-                  Location
+                  Rating
                 </TableCell>
                 <TableCell>
-                  Phone
+                  Description
                 </TableCell>
                 <TableCell>
-                  Registration date
+                  CreateAt
+                </TableCell>
+                <TableCell>
+                  UpdateAt
+                </TableCell>
+                <TableCell>
+                  View
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers.slice(0, limit).map((customer) => (
+              {rows.slice(0, limit).map((feedback) => (
                 <TableRow
                   hover
-                  key={customer.id}
-                  selected={selectedCustomerIds.indexOf(customer.id) !== -1}
+                  key={feedback.id}
+                  selected={selectedFeedbackIds.indexOf(feedback.id) !== -1}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
-                      checked={selectedCustomerIds.indexOf(customer.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, customer.id)}
+                      checked={selectedFeedbackIds.indexOf(feedback.id) !== -1}
+                      onChange={(event) => handleSelectOne(event, feedback.id)}
                       value="true"
                     />
                   </TableCell>
@@ -129,31 +140,37 @@ const Results = ({ className, customers, ...rest }) => {
                       alignItems="center"
                       display="flex"
                     >
-                      <Avatar
-                        className={classes.avatar}
-                        src={customer.avatarUrl}
-                      >
-                        {getInitials(customer.name)}
-                      </Avatar>
                       <Typography
                         color="textPrimary"
                         variant="body1"
                       >
-                        {customer.name}
+                        {feedback.id}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {customer.email}
+                    {feedback.productName}
                   </TableCell>
                   <TableCell>
-                    {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
+                    <Rating
+                      name="half-rating-read"
+                      defaultValue={0}
+                      precision={0.5}
+                      value={feedback.rating}
+                      readOnly
+                    />
                   </TableCell>
                   <TableCell>
-                    {customer.phone}
+                    {feedback.description}
                   </TableCell>
                   <TableCell>
-                    {moment(customer.createdAt).format('DD/MM/YYYY')}
+                    {moment(feedback.create_At, 'DD/MM/YYYY').format('DD/MM/YYYY')}
+                  </TableCell>
+                  <TableCell>
+                    {feedback.update_At === null ? 'N/A' : moment(feedback.update_At, 'DD/MM/YYYY').format('DD/MM/YYYY')}
+                  </TableCell>
+                  <TableCell>
+                    <button type="button" className="btn btn-success" onClick={deleteFeedbacks}>Delete</button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -163,7 +180,7 @@ const Results = ({ className, customers, ...rest }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={customers.length}
+        count={rows.length}
         onChangePage={handlePageChange}
         onChangeRowsPerPage={handleLimitChange}
         page={page}
@@ -176,7 +193,8 @@ const Results = ({ className, customers, ...rest }) => {
 
 Results.propTypes = {
   className: PropTypes.string,
-  customers: PropTypes.array.isRequired
+  rows: PropTypes.array.isRequired,
+  deleteFeedbacks: PropTypes.func
 };
 
 export default Results;
