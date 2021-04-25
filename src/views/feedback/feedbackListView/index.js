@@ -45,7 +45,7 @@ const FeedbackListView = () => {
       title="Feedbacks"
     >
       <Container maxWidth={false}>
-        <Toolbar retrieveRows={retrieveRows} />
+        <Toolbar rows={rows} setRows={setRows} retrieveRows={retrieveRows} />
         <Box mt={3}>
           <Results rows={rows} deleteFeedbacks={deleteFeedbacks} />
         </Box>

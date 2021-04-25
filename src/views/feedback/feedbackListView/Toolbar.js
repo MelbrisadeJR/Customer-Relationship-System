@@ -61,6 +61,8 @@ const starLabels = {
 
 const Toolbar = ({
   className,
+  rows,
+  setRows,
   retrieveRows,
   ...rest
 }) => {
@@ -73,6 +75,7 @@ const Toolbar = ({
   const [snakebarOpen, setSnakebarOpen] = React.useState(false);
   const [errorSnakebarOpen, setErrorSnakebarOpen] = React.useState(false);
   const [error, setError] = React.useState('');
+  const [search, setSearch] = useState('');
   const productOptions = ['Product1', 'Product2', 'Product3'];
 
   const addAFeedback = () => {
@@ -118,6 +121,30 @@ const Toolbar = ({
     setSnakebarOpen(false);
   };
 
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
+    if (search !== undefined) {
+      const rowData = rows.map((row) => Object
+        .values(row).filter((option) => option
+        !== true && option !== false && option !== null));
+      const matches = rowData.map((row) => row
+        .map((option) => option
+          .toString().toLowerCase().includes(event.target.value.toString().toLowerCase())));
+      console.log(matches);
+      const newRows = [];
+      matches.map((row, index) => {
+        if (row.includes(true)) {
+          newRows.push(rows[index]);
+        }
+        return newRows;
+      });
+      setRows(newRows);
+    }
+    if (event.target.value === '') {
+      retrieveRows();
+    }
+  };
+
   return (
     <div
       className={clsx(classes.root, className)}
@@ -161,6 +188,8 @@ const Toolbar = ({
                 }}
                 placeholder="Search feedback"
                 variant="outlined"
+                value={search}
+                onChange={handleSearch}
               />
             </Box>
           </CardContent>
@@ -248,8 +277,8 @@ const Toolbar = ({
 Toolbar.propTypes = {
   className: PropTypes.string,
   setRows: PropTypes.func,
-  rows: PropTypes.array.isRequired,
-  retrieveRows: PropTypes.func
+  retrieveRows: PropTypes.func,
+  rows: PropTypes.array.isRequired
 };
 
 export default Toolbar;
