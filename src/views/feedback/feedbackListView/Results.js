@@ -99,9 +99,6 @@ const Results = ({
                   />
                 </TableCell>
                 <TableCell>
-                  FeedbackID
-                </TableCell>
-                <TableCell>
                   ProductName
                 </TableCell>
                 <TableCell>
@@ -136,20 +133,12 @@ const Results = ({
                     />
                   </TableCell>
                   <TableCell>
-                    <Box
-                      alignItems="center"
-                      display="flex"
+                    <Typography
+                      color="textPrimary"
+                      variant="body1"
                     >
-                      <Typography
-                        color="textPrimary"
-                        variant="body1"
-                      >
-                        {feedback.id}
-                      </Typography>
-                    </Box>
-                  </TableCell>
-                  <TableCell>
-                    {feedback.productName}
+                      {feedback.productName}
+                    </Typography>
                   </TableCell>
                   <TableCell>
                     <Rating
