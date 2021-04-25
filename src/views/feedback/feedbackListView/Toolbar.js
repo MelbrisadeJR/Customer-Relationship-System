@@ -19,6 +19,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Rating from '@material-ui/lab/Rating';
+import MuiAlert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
 import FeedbackService from '../../../services/feedback';
 
 const useStyles = makeStyles((theme) => ({
@@ -40,6 +42,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const starLabels = {
   0.5: 'Useless',
   1: 'Useless+',
@@ -55,6 +61,7 @@ const starLabels = {
 
 const Toolbar = ({
   className,
+  retrieveRows,
   ...rest
 }) => {
   const classes = useStyles();
@@ -63,6 +70,7 @@ const Toolbar = ({
   const [description, setDescription] = useState('');
   const [starValue, setstarValue] = React.useState(0);
   const [starHover, setStarHover] = React.useState(-1);
+  const [snakebarOpen, setSnakebarOpen] = React.useState(false);
 
   const productOptions = ['Product1', 'Product2', 'Product3'];
 
@@ -72,12 +80,22 @@ const Toolbar = ({
       rating: starValue,
       productName: String(product)
     };
-    FeedbackService.createFeedback(newFeedback);
-    setDialogOpen(false);
-    setProduct('');
-    setDescription('');
-    setstarValue(0);
-    window.location.reload(false);
+    if (description !== '' && starValue !== 0 && product !== '') {
+      FeedbackService.createFeedback(newFeedback);
+      setDialogOpen(false);
+      setProduct('');
+      setDescription('');
+      setstarValue(0);
+      window.location.reload(false);
+      setSnakebarOpen(true);
+    }
+  };
+
+  const handleSnakebarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnakebarOpen(false);
   };
 
   return (
@@ -128,6 +146,11 @@ const Toolbar = ({
           </CardContent>
         </Card>
       </Box>
+      <Snackbar open={snakebarOpen} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} autoHideDuration={1000} onClose={handleSnakebarClose}>
+        <Alert severity="success">
+          Feedback Successfully Added!
+        </Alert>
+      </Snackbar>
       <Dialog fullWidth maxWidth="xs" open={dialogOpen} onClose={() => setDialogOpen(false)}>
         <Grid container justify="center">
           <Grid item style={{ marginTop: '5%' }}>
@@ -201,6 +224,7 @@ Toolbar.propTypes = {
   className: PropTypes.string,
   setRows: PropTypes.func,
   rows: PropTypes.array.isRequired,
+  retrieveRows: PropTypes.func
 };
 
 export default Toolbar;
