@@ -66,12 +66,13 @@ const Toolbar = ({
 }) => {
   const classes = useStyles();
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [product, setProduct] = useState(false);
+  const [product, setProduct] = useState('');
   const [description, setDescription] = useState('');
   const [starValue, setstarValue] = React.useState(0);
   const [starHover, setStarHover] = React.useState(-1);
   const [snakebarOpen, setSnakebarOpen] = React.useState(false);
-
+  const [errorSnakebarOpen, setErrorSnakebarOpen] = React.useState(false);
+  const [error, setError] = React.useState('');
   const productOptions = ['Product1', 'Product2', 'Product3'];
 
   const addAFeedback = () => {
@@ -80,6 +81,18 @@ const Toolbar = ({
       rating: starValue,
       productName: String(product)
     };
+    if (product === '') {
+      setErrorSnakebarOpen(true);
+      setError('Please Enter Product Name!');
+    }
+    if (starValue === 0) {
+      setErrorSnakebarOpen(true);
+      setError('Please Select At Least Half Star!');
+    }
+    if (description === '') {
+      setErrorSnakebarOpen(true);
+      setError('Please Enter Description!');
+    }
     if (description !== '' && starValue !== 0 && product !== '') {
       FeedbackService.createFeedback(newFeedback);
       setDialogOpen(false);
@@ -89,6 +102,13 @@ const Toolbar = ({
       window.location.reload(false);
       setSnakebarOpen(true);
     }
+  };
+
+  const handleErrorSnakebarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setErrorSnakebarOpen(false);
   };
 
   const handleSnakebarClose = (event, reason) => {
@@ -146,6 +166,11 @@ const Toolbar = ({
           </CardContent>
         </Card>
       </Box>
+      <Snackbar open={errorSnakebarOpen} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} autoHideDuration={1000} onClose={handleErrorSnakebarClose}>
+        <Alert severity="error">
+          {error}
+        </Alert>
+      </Snackbar>
       <Snackbar open={snakebarOpen} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} autoHideDuration={1000} onClose={handleSnakebarClose}>
         <Alert severity="success">
           Feedback Successfully Added!
