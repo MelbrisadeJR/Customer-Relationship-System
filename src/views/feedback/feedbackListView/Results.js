@@ -69,7 +69,8 @@ const Results = ({
   };
 
   const handleLimitChange = (event) => {
-    setLimit(event.target.value);
+    setLimit(parseInt(event.target.value, 10));
+    setPage(0);
   };
 
   const handlePageChange = (event, newPage) => {
