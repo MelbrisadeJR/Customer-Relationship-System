@@ -20,31 +20,34 @@ const useStyles = makeStyles((theme) => ({
 
 const FeedbackListView = () => {
   const classes = useStyles();
-  const [customers, setCustomers] = useState([]);
-  const retrieveCustomers = () => {
+  const [rows, setRows] = useState([]);
+
+  const retrieveRows = () => {
     FeedbackService.getAll()
       .then((response) => {
-        // const { customers } = response.data;
-        // customers.map(customer => customer.date = customer.date.slice(0,10));
-        setCustomers(response.data);
+        setRows(response.data);
       })
       .catch((e) => {
         console.log(e);
       });
   };
-
   useEffect(() => {
-    retrieveCustomers();
+    retrieveRows();
   }, []);
+
+  const deleteFeedbacks = () => {
+    alert('Delete feedbacks');
+  };
+
   return (
     <Page
       className={classes.root}
-      title="Customers"
+      title="Feedbacks"
     >
       <Container maxWidth={false}>
-        <Toolbar />
+        <Toolbar rows={rows} setRows={setRows} retrieveRows={retrieveRows} />
         <Box mt={3}>
-          <Results customers={customers} />
+          <Results rows={rows} deleteFeedbacks={deleteFeedbacks} />
         </Box>
       </Container>
     </Page>
