@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-// import { useHistory } from 'react-router-dom';
-// import { Redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -19,6 +19,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import getInitials from 'src/utils/getInitials';
+//  import CustomerProfile from './CustomerProfile';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -72,15 +73,11 @@ const Results = ({ className, customers, ...rest }) => {
     setPage(newPage);
   };
 
-  // const history = useHistory();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  function openCustomer(id) {
-    // history.push(`/customers/${id}`);
-    const route = `/customers/${id}`;
-    console.log(route);
-    // navigate(route);
-    // return <Redirect from="/customers" to="/customers/666" />;
+  function handleViewCustomer() {
+    //  window.open();
+    navigate('viewCustomer');
   }
 
   return (
@@ -165,7 +162,8 @@ const Results = ({ className, customers, ...rest }) => {
                     {customer.mobile}
                   </TableCell>
                   <TableCell>
-                    <button type="button" className="btn btn-success" onClick={() => openCustomer(customer.customerId)}>
+
+                    <button type="button" className="btn btn-success" onClick={handleViewCustomer}>
                       View
                     </button>
                   </TableCell>

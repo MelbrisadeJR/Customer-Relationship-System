@@ -13,6 +13,7 @@ import SettingsView from 'src/views/settings/SettingsView';
 import FeedbackListView from 'src/views/feedback/feedbackListView';
 import OrderListView from 'src/views/order/OrderListView';
 import EmailListView from 'src/views/email/EmailListView';
+import CustomerProfile from 'src/views/customer/CustomerListView/CustomerProfile';
 
 const routes = [
   {
@@ -20,7 +21,13 @@ const routes = [
     element: <DashboardLayout />,
     children: [
       { path: 'account', element: <AccountView /> },
-      { path: 'customers', element: <CustomerListView /> },
+      {
+        path: 'customers',
+        element: <CustomerListView />,
+        children: [
+          { path: 'viewCustomer', element: <CustomerProfile /> }
+        ]
+      },
       { path: 'dashboard', element: <DashboardView /> },
       { path: 'products', element: <ProductListView /> },
       { path: 'settings', element: <SettingsView /> },

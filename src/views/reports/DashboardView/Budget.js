@@ -77,7 +77,7 @@ const Budget = ({ className, ...rest }) => {
             className={classes.differenceValue}
             variant="body2"
           >
-            12%
+            13%
           </Typography>
           <Typography
             color="textSecondary"
