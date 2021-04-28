@@ -177,13 +177,6 @@ const Toolbar = ({
         <DialogContent>
           <Grid container justify="space-between">
             <Grid item container direction="column" sm>
-              <Grid item>
-                <Select style={{ width: '12em' }} labelid="gender" id="gender" displayEmpty renderValue={gender.length > 0 ? undefined : () => 'gender'} value={gender} onChange={(event) => setGender(event.target.value)}>
-                  {genderOption.map((option) => (
-                    <MenuItem key={option} value={option}>{option}</MenuItem>
-                  ))}
-                </Select>
-              </Grid>
               <Grid item style={{ marginTop: '5%' }}>
                 <TextField
                   label="Email Address"
@@ -216,6 +209,73 @@ const Toolbar = ({
                   labelid="lastName"
                   type="lastName"
                   value={lastName}
+                  variant="outlined"
+                  onChange={(event) => setLastName(event.target.value)}
+                />
+              </Grid>
+              <Grid item style={{ marginTop: '2%' }}>
+                <Select style={{ width: '12em' }} labelid="gender" id="gender" displayEmpty renderValue={gender.length > 0 ? undefined : () => 'gender'} value={gender} onChange={(event) => setGender(event.target.value)}>
+                  {genderOption.map((option) => (
+                    <MenuItem key={option} value={option}>{option}</MenuItem>
+                  ))}
+                </Select>
+              </Grid>
+              <Grid item style={{ marginTop: '2%' }}>
+                <TextField
+                  label="Address Line 1"
+                  fullWidth
+                  id="addressLine1"
+                  labelid="addressLine1"
+                  type="addressLine1"
+                  value={addressLine1}
+                  variant="outlined"
+                  onChange={(event) => setLastName(event.target.value)}
+                />
+              </Grid>
+              <Grid item style={{ marginTop: '2%' }}>
+                <TextField
+                  label="Address Line 2"
+                  fullWidth
+                  id="addressLine2"
+                  labelid="addressLine2"
+                  type="addressLine2"
+                  value={addressLine2}
+                  variant="outlined"
+                  onChange={(event) => setLastName(event.target.value)}
+                />
+              </Grid>
+              <Grid item style={{ marginTop: '2%' }}>
+                <TextField
+                  label="City"
+                  fullWidth
+                  id="city"
+                  labelid="city"
+                  type="city"
+                  value={city}
+                  variant="outlined"
+                  onChange={(event) => setLastName(event.target.value)}
+                />
+              </Grid>
+              <Grid item style={{ marginTop: '2%' }}>
+                <TextField
+                  label="Country"
+                  fullWidth
+                  id="country"
+                  labelid="country"
+                  type="country"
+                  value={country}
+                  variant="outlined"
+                  onChange={(event) => setLastName(event.target.value)}
+                />
+              </Grid>
+              <Grid item style={{ marginTop: '2%' }}>
+                <TextField
+                  label="Mobile"
+                  fullWidth
+                  id="mobile"
+                  labelid="mobile"
+                  type="mobile"
+                  value={mobile}
                   variant="outlined"
                   onChange={(event) => setLastName(event.target.value)}
                 />

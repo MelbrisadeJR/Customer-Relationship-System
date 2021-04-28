@@ -19,7 +19,6 @@ import {
   makeStyles
 } from '@material-ui/core';
 import getInitials from 'src/utils/getInitials';
-//  import CustomerProfile from './CustomerProfile';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
