@@ -2,7 +2,7 @@ import axios from 'axios';
 import http from '../utils/http-common';
 
 const getAll = () => {
-  return http.get('/customer');
+  return http.get('/customers');
 };
 
 const getOne = (id) => {
