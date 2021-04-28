@@ -2,11 +2,11 @@ import axios from 'axios';
 import http from '../utils/http-common';
 
 const getAll = () => {
-  return http.get('/customers');
+  return http.get('/customer');
 };
 
 const getOne = (id) => {
-  return http.get(`/customers/${id}`);
+  return http.get(`/customer/${id}`);
 };
 
 const addCustomer = (customer) => {
