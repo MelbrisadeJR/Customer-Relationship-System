@@ -119,7 +119,7 @@ const Results = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.slice(0, limit).map((feedback) => (
+              {rows.slice(page * limit, page * limit + limit).map((feedback) => (
                 <TableRow
                   hover
                   key={feedback.id}
