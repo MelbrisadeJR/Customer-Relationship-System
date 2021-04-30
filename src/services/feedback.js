@@ -12,6 +12,7 @@ const deleteFeedback = (feedbackId) => {
 const createFeedback = (feedback) => {
   axios.post('http://localhost:8080/api/feedback', feedback)
     .then((response) => {
+      window.location.reload(false);
       console.log(response);
     }, (error) => {
       alert(error);
