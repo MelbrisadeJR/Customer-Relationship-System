@@ -139,15 +139,27 @@ const EnhancedTableToolbar = (props) => {
   const [undo, setUndo] = useState([]);
   const [alert, setAlert] = useState({ open: false, color: '#FF3232', message: 'Row Deleted!' });
 
+  const deleteMulitpleFeedbacksbyIds = () => {
+    const undoRows = [...undo];
+    const arrayids = undoRows.map((undoRow) => (undoRow.id));
+    console.log(arrayids);
+    axios
+      .delete(`http://localhost:8080/api/feedback/feedbacks/${arrayids}`)
+      .then((data) => {
+        console.log(data);
+        props.retrieveRows();
+      })
+      .catch((err) => console.log(err));
+  };
+
   const onDelete = () => {
     const newRows = [...props.rows];
-    const selectedRows = newRows.filter((row) => props.selected.includes(row.name));
+    const selectedRows = newRows.filter((row) => props.selected.includes(row.id));
     props.setRows(newRows);
     setUndo(selectedRows);
     props.setSelected([]);
     setAlert({ ...alert, open: true });
   };
-
   const onUndo = () => {
     setAlert({ ...alert, open: false });
     const newRows = [...props.rows];
@@ -194,8 +206,9 @@ const EnhancedTableToolbar = (props) => {
           if (reason === 'clickaway') {
             setAlert({ ...alert, open: false });
             const newRows = [...props.rows];
-            const names = [...undo.map((row) => row.name)];
-            props.setRows(newRows.filter((row) => !names.includes(row.name)));
+            const ids = [...undo.map((row) => row.id)];
+            props.setRows(newRows.filter((row) => !ids.includes(row.id)));
+            deleteMulitpleFeedbacksbyIds();
           }
         }}
         action={(
@@ -213,10 +226,11 @@ const EnhancedTableToolbar = (props) => {
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
+  retrieveRows: PropTypes.func.isRequired,
   setSelected: PropTypes.func.isRequired,
-  rows: PropTypes.array.isRequired,
   selected: PropTypes.array.isRequired,
-  setRows: PropTypes.func
+  rows: PropTypes.array.isRequired,
+  setRows: PropTypes.func.isRequired
 };
 
 EnhancedTableHead.propTypes = {
@@ -306,18 +320,6 @@ const Results = ({
     setOrderBy(property);
   };
 
-  const deleteMulitpleFeedbacksbyIds = () => {
-    const arrayids = [...selectedFeedbackIds];
-    console.log(arrayids);
-    axios
-      .delete(`http://localhost:8080/api/feedback/feedbacks/${arrayids}`)
-      .then((data) => {
-        console.log(data);
-        retrieveRows();
-      })
-      .catch((err) => alert(err));
-  };
-
   const handleLimitChange = (event) => {
     setLimit(parseInt(event.target.value, 10));
     setPage(0);
@@ -334,14 +336,13 @@ const Results = ({
     >
       <PerfectScrollbar>
         <Box minWidth={1050}>
-          <button type="button" className="btn btn-success" onClick={deleteMulitpleFeedbacksbyIds}>Delete</button>
           <EnhancedTableToolbar
             rows={rows}
             setRows={setRows}
             selected={selectedFeedbackIds}
             setSelected={setselectedFeedbackIds}
             numSelected={selectedFeedbackIds.length}
-            deleteMulitpleFeedbacksbyIds={deleteMulitpleFeedbacksbyIds}
+            retrieveRows={retrieveRows}
           />
           <Table>
             <EnhancedTableHead

@@ -14,7 +14,7 @@ const createFeedback = (feedback) => {
     .then((response) => {
       console.log(response);
     }, (error) => {
-      console.log(error);
+      alert(error);
     });
 };
 
