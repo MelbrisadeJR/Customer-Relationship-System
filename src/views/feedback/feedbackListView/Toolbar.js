@@ -102,7 +102,6 @@ const Toolbar = ({
       setProduct('');
       setDescription('');
       setstarValue(0);
-      window.location.reload(false);
       setSnakebarOpen(true);
     }
   };
