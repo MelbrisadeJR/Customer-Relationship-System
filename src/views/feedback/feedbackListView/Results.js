@@ -6,9 +6,17 @@ import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import Rating from '@material-ui/lab/Rating';
 import DeleteIcon from '@material-ui/icons/Delete';
-import SnakeBar from '@material-ui/core/Snackbar';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import Grid from '@material-ui/core/Grid';
+import MuiAlert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
+import VisibilitySharpIcon from '@material-ui/icons/VisibilitySharp';
 import {
   Box,
+  TextField,
   Card,
   Button,
   Checkbox,
@@ -26,6 +34,11 @@ import {
   IconButton,
   makeStyles
 } from '@material-ui/core';
+import FeedbackService from '../../../services/feedback';
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -192,7 +205,7 @@ const EnhancedTableToolbar = (props) => {
       ) : (
         null
       )}
-      <SnakeBar
+      <Snackbar
         open={alert.open}
         ContentProps={{
           style: {
@@ -267,6 +280,19 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const starLabels = {
+  0.5: 'Useless',
+  1: 'Useless+',
+  1.5: 'Poor',
+  2: 'Poor+',
+  2.5: 'Ok',
+  3: 'Ok+',
+  3.5: 'Good',
+  4: 'Good+',
+  4.5: 'Excellent',
+  5: 'Excellent+',
+};
+
 const Results = ({
   className,
   rows,
@@ -280,7 +306,13 @@ const Results = ({
   const [selectedFeedbackIds, setselectedFeedbackIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
-
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [product, setProduct] = useState('');
+  const [description, setDescription] = useState('');
+  const [starVal, setstarVal] = React.useState(0);
+  const [starHo, setStarHo] = React.useState(-1);
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+  const productOptions = ['Product1', 'Product2', 'Product3'];
   const handleSelectAll = (event) => {
     let newselectedFeedbackIds;
 
@@ -312,6 +344,29 @@ const Results = ({
     }
 
     setselectedFeedbackIds(newselectedFeedbackIds);
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
+
+  const addAFeedback = () => {
+    const newFeedback = {
+      description,
+      rating: starVal,
+      productName: product
+    };
+    if (description !== '' && starVal !== 0 && product !== '') {
+      FeedbackService.createFeedback(newFeedback);
+      setDialogOpen(false);
+      setProduct('');
+      setDescription('');
+      setstarVal(0);
+      setSnackbarOpen(true);
+    }
   };
 
   const handleRequestSort = (event, property) => {
@@ -396,8 +451,83 @@ const Results = ({
                       {feedback.update_At === null ? 'N/A' : moment(feedback.update_At, 'DD/MM/YYYY').format('DD/MM/YYYY')}
                     </TableCell>
                     <TableCell align="center">
-                      <button type="button" className="btn btn-success">Delete</button>
+                      <IconButton aria-label="VisibilitySharp" onClick={() => setDialogOpen(true)}>
+                        <VisibilitySharpIcon style={{ fontSize: 30 }} color="primary" />
+                      </IconButton>
                     </TableCell>
+                    <Dialog fullWidth maxWidth="xs" open={dialogOpen} onClose={() => setDialogOpen(false)}>
+                      <Grid container justify="center">
+                        <Grid item style={{ marginTop: '5%' }}>
+                          <Typography variant="h2" gutterBottom>
+                            Modify a new Feedback
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                      <DialogContent>
+                        <Grid container justify="space-between">
+                          <Grid item container direction="column" sm>
+                            <Grid item>
+                              <Select
+                                style={{ width: '12em' }}
+                                labelid="product"
+                                id="product"
+                                displayEmpty
+                                value={feedback.productName}
+                                onChange={(event) => setProduct(event.target.value)}
+                              >
+                                {productOptions.map((option) => (
+                                  <MenuItem key={option} value={option}>{option}</MenuItem>
+                                ))}
+                              </Select>
+                            </Grid>
+                            <Grid item style={{ marginTop: '5%' }}>
+                              <Rating
+                                name="hover-feedback"
+                                value={feedback.rating}
+                                precision={0.5}
+                                onChange={(event, newValue) => {
+                                  setstarVal(newValue);
+                                }}
+                                onChangeActive={(event, newHover) => {
+                                  setStarHo(newHover);
+                                }}
+                              />
+                              {starVal
+                                !== null
+                                && <Box ml={2}>{starLabels[starHo !== -1 ? starHo : starVal]}</Box>}
+                            </Grid>
+                            <Grid item style={{ marginTop: '5%' }}>
+                              <TextField
+                                label="Description"
+                                fullWidth
+                                id="description"
+                                labelid="description"
+                                multiline
+                                rows={4}
+                                value={feedback.description}
+                                variant="outlined"
+                                onChange={(event) => setDescription(event.target.value)}
+                              />
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                      </DialogContent>
+                      <Grid container justify="center" style={{ marginBottom: '5%' }}>
+                        <Grid item>
+                          <Button onClick={() => setDialogOpen(false)} color="primary" style={{ fontWeight: 300 }}>Cancel</Button>
+                        </Grid>
+                        <Grid item>
+                          <Button
+                            color="primary"
+                            className={classes.button}
+                            style={{ fontWeight: 300 }}
+                            onClick={addAFeedback}
+                          >
+                            Modify Feedback +
+                          </Button>
+                        </Grid>
+                      </Grid>
+                    </Dialog>
                   </TableRow>
                 ))}
             </TableBody>
@@ -413,6 +543,11 @@ const Results = ({
         rowsPerPage={limit}
         rowsPerPageOptions={[5, 10, 25]}
       />
+      <Snackbar open={snackbarOpen} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} autoHideDuration={1000} onClose={handleSnackbarClose}>
+        <Alert severity="success">
+          Feedback Successfully Added!
+        </Alert>
+      </Snackbar>
     </Card>
   );
 };

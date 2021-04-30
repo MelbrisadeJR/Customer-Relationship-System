@@ -72,8 +72,8 @@ const Toolbar = ({
   const [description, setDescription] = useState('');
   const [starValue, setstarValue] = React.useState(0);
   const [starHover, setStarHover] = React.useState(-1);
-  const [snakebarOpen, setSnakebarOpen] = React.useState(false);
-  const [errorSnakebarOpen, setErrorSnakebarOpen] = React.useState(false);
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+  const [errorSnackbarOpen, setErrorSnackbarOpen] = React.useState(false);
   const [error, setError] = React.useState('');
   const [search, setSearch] = useState('');
   const productOptions = ['Product1', 'Product2', 'Product3'];
@@ -85,15 +85,15 @@ const Toolbar = ({
       productName: product
     };
     if (product === '') {
-      setErrorSnakebarOpen(true);
+      setErrorSnackbarOpen(true);
       setError('Please Enter Product Name!');
     }
     if (starValue === 0) {
-      setErrorSnakebarOpen(true);
+      setErrorSnackbarOpen(true);
       setError('Please Select At Least Half Star!');
     }
     if (description === '') {
-      setErrorSnakebarOpen(true);
+      setErrorSnackbarOpen(true);
       setError('Please Enter Description!');
     }
     if (description !== '' && starValue !== 0 && product !== '') {
@@ -102,22 +102,22 @@ const Toolbar = ({
       setProduct('');
       setDescription('');
       setstarValue(0);
-      setSnakebarOpen(true);
+      setSnackbarOpen(true);
     }
   };
 
-  const handleErrorSnakebarClose = (event, reason) => {
+  const handleErrorSnackbarClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
-    setErrorSnakebarOpen(false);
+    setErrorSnackbarOpen(false);
   };
 
-  const handleSnakebarClose = (event, reason) => {
+  const handleSnackbarClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
-    setSnakebarOpen(false);
+    setSnackbarOpen(false);
   };
 
   const handleSearch = (event) => {
@@ -194,12 +194,12 @@ const Toolbar = ({
           </CardContent>
         </Card>
       </Box>
-      <Snackbar open={errorSnakebarOpen} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} autoHideDuration={1000} onClose={handleErrorSnakebarClose}>
+      <Snackbar open={errorSnackbarOpen} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} autoHideDuration={1000} onClose={handleErrorSnackbarClose}>
         <Alert severity="error">
           {error}
         </Alert>
       </Snackbar>
-      <Snackbar open={snakebarOpen} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} autoHideDuration={1000} onClose={handleSnakebarClose}>
+      <Snackbar open={snackbarOpen} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} autoHideDuration={1000} onClose={handleSnackbarClose}>
         <Alert severity="success">
           Feedback Successfully Added!
         </Alert>
