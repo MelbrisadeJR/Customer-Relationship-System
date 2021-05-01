@@ -35,10 +35,6 @@ const FeedbackListView = () => {
     retrieveRows();
   }, []);
 
-  const deleteFeedbacks = () => {
-    alert('Delete feedbacks');
-  };
-
   return (
     <Page
       className={classes.root}
@@ -47,7 +43,7 @@ const FeedbackListView = () => {
       <Container maxWidth={false}>
         <Toolbar rows={rows} setRows={setRows} retrieveRows={retrieveRows} />
         <Box mt={3}>
-          <Results rows={rows} deleteFeedbacks={deleteFeedbacks} />
+          <Results rows={rows} setRows={setRows} retrieveRows={retrieveRows} />
         </Box>
       </Container>
     </Page>
