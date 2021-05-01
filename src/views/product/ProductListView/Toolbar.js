@@ -18,6 +18,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import EditIcon from '@material-ui/icons/Edit';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -50,6 +51,13 @@ const Toolbar = ({ className, ...rest }) => {
         display="flex"
         justifyContent="flex-end"
       >
+        <Button
+          className={classes.editButton}
+          startIcon={<EditIcon />}
+          onClick={handleClickOpen}
+        >
+          Edit
+        </Button>
         <Button className={classes.importButton}>
           Import
         </Button>
