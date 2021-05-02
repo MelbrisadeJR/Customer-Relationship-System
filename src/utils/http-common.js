@@ -1,8 +1,12 @@
 import axios from 'axios';
 
-export default axios.create({
-  baseURL: 'http://localhost:8080/api',
+const baseURL = 'http://localhost:8090/api';
+
+const MelbrisadeServer = axios.create({
+  baseURL,
   headers: {
     'Content-type': 'application/json'
   }
 });
+
+export default MelbrisadeServer;

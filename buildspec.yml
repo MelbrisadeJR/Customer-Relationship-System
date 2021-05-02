@@ -1,0 +1,19 @@
+
+--- 
+phases: 
+  build: 
+    commands: 
+      - "echo Build started on `date`"
+      - "echo Building the Docker image..."
+      - "docker build -t melbrisade-dashboard ."
+      - "docker tag melbrisade-dashboard:latest 725606410424.dkr.ecr.ap-southeast-2.amazonaws.com/melbrisade-dashboard:v1"
+  post_build: 
+    commands: 
+      - "echo Build completed on `date`"
+      - "echo Pushing the Docker image..."
+      - "docker push 725606410424.dkr.ecr.ap-southeast-2.amazonaws.com/melbrisade-dashboard:v1"
+  pre_build: 
+    commands: 
+      - "echo Logging in to Docker Hub..."
+      # - "docker login --username=\"dizzyraisin\" --password=\"\""
+version: 0.1

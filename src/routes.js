@@ -13,6 +13,7 @@ import SettingsView from 'src/views/settings/SettingsView';
 import FeedbackListView from 'src/views/feedback/feedbackListView';
 import OrderListView from 'src/views/order/OrderListView';
 import EmailListView from 'src/views/email/EmailListView';
+import EmailVerificationResult from 'src/views/auth/EmailVerificationResult';
 
 const routes = [
   {
@@ -36,6 +37,7 @@ const routes = [
     children: [
       { path: 'login', element: <LoginView /> },
       { path: 'register', element: <RegisterView /> },
+      { path: 'email_verification', element: <EmailVerificationResult /> },
       { path: '404', element: <NotFoundView /> },
       { path: '/', element: <Navigate to="/app/dashboard" /> },
       { path: '*', element: <Navigate to="/404" /> }
