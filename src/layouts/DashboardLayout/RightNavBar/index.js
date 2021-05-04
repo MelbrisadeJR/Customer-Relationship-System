@@ -12,6 +12,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { User as AccountIcon } from 'react-feather';
 import InputIcon from '@material-ui/icons/Input';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 
 const rightNav = [
   {
@@ -23,6 +24,11 @@ const rightNav = [
     href: '/app/account',
     title: 'Account',
     icon: AccountIcon,
+  },
+  {
+    href: '/app/admin',
+    title: 'Supervisor',
+    icon: SupervisorAccountIcon,
   },
   {
     href: '/login',
