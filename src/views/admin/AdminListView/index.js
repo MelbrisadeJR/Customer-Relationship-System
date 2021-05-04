@@ -7,7 +7,6 @@ import {
 import Page from 'src/components/Page';
 import Toolbar from './Toolbar';
 import Results from './Results';
-import data from './data';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,12 +19,12 @@ const useStyles = makeStyles((theme) => ({
 
 const AdminListView = () => {
   const classes = useStyles();
-  const [Admins] = useState(data);
+  const [Admins] = useState([]);
 
   return (
     <Page
       className={classes.root}
-      title="Admins"
+      title="Admin"
     >
       <Container maxWidth={false}>
         <Toolbar />

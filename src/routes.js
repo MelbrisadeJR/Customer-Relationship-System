@@ -13,6 +13,9 @@ import SettingsView from 'src/views/settings/SettingsView';
 import FeedbackListView from 'src/views/feedback/feedbackListView';
 import OrderListView from 'src/views/order/OrderListView';
 import EmailListView from 'src/views/email/EmailListView';
+import AdminListView from 'src/views/admin/AdminListView';
+import AdminLogin from 'src/views/admin/AdminListView/AdminLogin';
+import FoundPassword from 'src/views/admin/AdminListView/ForgetPassword';
 
 const routes = [
   {
@@ -27,7 +30,10 @@ const routes = [
       { path: 'feedbacks', element: <FeedbackListView /> },
       { path: 'orders', element: <OrderListView /> },
       { path: 'emails', element: <EmailListView /> },
-      { path: '*', element: <Navigate to="/404" /> }
+      { path: '*', element: <Navigate to="/404" /> },
+      { path: 'admin', element: <AdminListView /> },
+      { path: 'adminlogin', element: <AdminLogin /> },
+      { path: 'foundpassword', element: <FoundPassword /> },
     ]
   },
   {
@@ -38,7 +44,7 @@ const routes = [
       { path: 'register', element: <RegisterView /> },
       { path: '404', element: <NotFoundView /> },
       { path: '/', element: <Navigate to="/app/dashboard" /> },
-      { path: '*', element: <Navigate to="/404" /> }
+      { path: '*', element: <Navigate to="/404" /> },
     ]
   }
 ];

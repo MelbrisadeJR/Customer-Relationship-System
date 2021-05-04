@@ -26,8 +26,8 @@ const rightNav = [
     icon: AccountIcon,
   },
   {
-    href: '/app/admin',
-    title: 'Supervisor',
+    href: '/app/adminlogin',
+    title: 'Admins',
     icon: SupervisorAccountIcon,
   },
   {
