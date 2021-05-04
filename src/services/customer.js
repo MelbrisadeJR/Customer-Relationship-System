@@ -1,4 +1,3 @@
-import axios from 'axios';
 import http from '../utils/http-common';
 
 const getAll = () => {
@@ -10,7 +9,8 @@ const getOne = (id) => {
 };
 
 const addCustomer = (customer) => {
-  axios.post('http://localhost:8080/api/customers', customer)
+  http
+    .post('/customers', customer)
     .then((response) => {
       console.log(response);
     }, (error) => {
@@ -22,11 +22,22 @@ const deleteCustomer = (id) => {
   return http.delete(`/customers/${id}`);
 };
 
+const deleteMultipleCustomersByIds = (customerIds) => {
+  console.log(customerIds);
+  http
+    .put('/customers', customerIds)
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((err) => console.log(err));
+};
+
 const CustomerService = {
   getAll,
   getOne,
   addCustomer,
-  deleteCustomer
+  deleteCustomer,
+  deleteMultipleCustomersByIds
 };
 
 export default CustomerService;

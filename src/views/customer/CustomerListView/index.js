@@ -47,9 +47,17 @@ const CustomerListView = () => {
       title="Customers"
     >
       <Container maxWidth={false}>
-        <Toolbar />
+        <Toolbar
+          customers={customers}
+          setCustomers={setCustomers}
+          retrieveCustomers={retrieveCustomers}
+        />
         <Box mt={3}>
-          <Results customers={customers} />
+          <Results
+            customers={customers}
+            setCustomers={setCustomers}
+            retrieveCustomers={retrieveCustomers}
+          />
         </Box>
       </Container>
     </Page>

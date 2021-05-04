@@ -342,7 +342,6 @@ const Results = ({
         selectedFeedbackIds.slice(selectedIndex + 1)
       );
     }
-
     setselectedFeedbackIds(newselectedFeedbackIds);
   };
 

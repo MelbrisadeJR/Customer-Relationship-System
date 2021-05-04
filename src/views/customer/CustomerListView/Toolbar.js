@@ -38,9 +38,9 @@ function Alert(props) {
 
 const Toolbar = ({
   className,
-  rows,
-  setRows,
-  retrieveRows,
+  customers,
+  setCustomers,
+  retrieveCustomers,
   ...rest
 }) => {
   const classes = useStyles();
@@ -55,9 +55,10 @@ const Toolbar = ({
   const [country, setCountry] = useState('');
   const [gender, setGender] = useState('');
   const genderOption = ['male', 'female', 'other'];
-  const [snakebarOpen, setSnakebarOpen] = useState(false);
-  const [errorSnakebarOpen, setErrorSnakebarOpen] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
   const [error, setError] = useState('');
+  const [search, setSearch] = useState('');
 
   const addCustomer = () => {
     const newCustomer = {
@@ -68,11 +69,11 @@ const Toolbar = ({
       addressLine2,
       mobile,
       city,
-      country
-
+      country,
+      gender
     };
     if (email === '') {
-      setErrorSnakebarOpen(true);
+      setErrorSnackbarOpen(true);
       console.log(newCustomer);
       setError('Please Enter Email Address!');
     }
@@ -90,22 +91,46 @@ const Toolbar = ({
       setCountry('');
       setGender('');
       window.location.reload(false);
-      setSnakebarOpen(true);
+      setSnackbarOpen(true);
     }
   };
 
-  const handleErrorSnakebarClose = (event, reason) => {
+  const handleErrorSnackbarClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
-    setErrorSnakebarOpen(false);
+    setErrorSnackbarOpen(false);
   };
 
-  const handleSnakebarClose = (event, reason) => {
+  const handleSnackbarClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
-    setSnakebarOpen(false);
+    setSnackbarOpen(false);
+  };
+
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
+    if (search !== undefined) {
+      const rowData = customers.map((row) => Object
+        .values(row).filter((option) => option
+        !== true && option !== false && option !== null));
+      const matches = rowData.map((row) => row
+        .map((option) => option
+          .toString().toLowerCase().includes(event.target.value.toString().toLowerCase())));
+      console.log(matches);
+      const newRows = [];
+      matches.map((row, index) => {
+        if (row.includes(true)) {
+          newRows.push(customers[index]);
+        }
+        return newRows;
+      });
+      setCustomers(newRows);
+    }
+    if (event.target.value === '') {
+      retrieveCustomers();
+    }
   };
 
   return (
@@ -151,17 +176,19 @@ const Toolbar = ({
                 }}
                 placeholder="Search customer"
                 variant="outlined"
+                value={search}
+                onChange={handleSearch}
               />
             </Box>
           </CardContent>
         </Card>
       </Box>
-      <Snackbar open={errorSnakebarOpen} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} autoHideDuration={1000} onClose={handleErrorSnakebarClose}>
+      <Snackbar open={errorSnackbarOpen} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} autoHideDuration={1000} onClose={handleErrorSnackbarClose}>
         <Alert severity="error">
           {error}
         </Alert>
       </Snackbar>
-      <Snackbar open={snakebarOpen} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} autoHideDuration={1000} onClose={handleSnakebarClose}>
+      <Snackbar open={snackbarOpen} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} autoHideDuration={1000} onClose={handleSnackbarClose}>
         <Alert severity="success">
           Customer Successfully Added!
         </Alert>
@@ -229,7 +256,7 @@ const Toolbar = ({
                   type="addressLine1"
                   value={addressLine1}
                   variant="outlined"
-                  onChange={(event) => setLastName(event.target.value)}
+                  onChange={(event) => setAddressLine1(event.target.value)}
                 />
               </Grid>
               <Grid item style={{ marginTop: '2%' }}>
@@ -241,7 +268,7 @@ const Toolbar = ({
                   type="addressLine2"
                   value={addressLine2}
                   variant="outlined"
-                  onChange={(event) => setLastName(event.target.value)}
+                  onChange={(event) => setAddressLine2(event.target.value)}
                 />
               </Grid>
               <Grid item style={{ marginTop: '2%' }}>
@@ -253,7 +280,7 @@ const Toolbar = ({
                   type="city"
                   value={city}
                   variant="outlined"
-                  onChange={(event) => setLastName(event.target.value)}
+                  onChange={(event) => setCity(event.target.value)}
                 />
               </Grid>
               <Grid item style={{ marginTop: '2%' }}>
@@ -265,7 +292,7 @@ const Toolbar = ({
                   type="country"
                   value={country}
                   variant="outlined"
-                  onChange={(event) => setLastName(event.target.value)}
+                  onChange={(event) => setCountry(event.target.value)}
                 />
               </Grid>
               <Grid item style={{ marginTop: '2%' }}>
@@ -277,7 +304,7 @@ const Toolbar = ({
                   type="mobile"
                   value={mobile}
                   variant="outlined"
-                  onChange={(event) => setLastName(event.target.value)}
+                  onChange={(event) => setMobile(event.target.value)}
                 />
               </Grid>
             </Grid>
@@ -305,9 +332,9 @@ const Toolbar = ({
 
 Toolbar.propTypes = {
   className: PropTypes.string,
-  setRows: PropTypes.func,
-  retrieveRows: PropTypes.func,
-  rows: PropTypes.array.isRequired
+  setCustomers: PropTypes.func,
+  retrieveCustomers: PropTypes.func,
+  customers: PropTypes.array.isRequired
 };
 
 export default Toolbar;
