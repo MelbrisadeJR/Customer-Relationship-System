@@ -25,7 +25,16 @@ const deleteCustomer = (id) => {
 const deleteMultipleCustomersByIds = (customerIds) => {
   console.log(customerIds);
   http
-    .put('/customers', customerIds)
+    .put(`/customers/${customerIds}`)
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((err) => console.log(err));
+};
+
+const updateCustomer = (customerId, customer) => {
+  http
+    .put(`/customers/${customerId}`, customer)
     .then((response) => {
       console.log(response);
     })
@@ -37,7 +46,8 @@ const CustomerService = {
   getOne,
   addCustomer,
   deleteCustomer,
-  deleteMultipleCustomersByIds
+  deleteMultipleCustomersByIds,
+  updateCustomer
 };
 
 export default CustomerService;

@@ -298,6 +298,7 @@ const Results = ({
   const [gender, setGender] = useState('');
   const genderOption = ['male', 'female', 'other'];
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [customerId, setCustomerId] = useState('');
   const handleSelectAll = (event) => {
     let newSelectedCustomerIds;
 
@@ -309,12 +310,12 @@ const Results = ({
     setSelectedCustomerIds(newSelectedCustomerIds);
   };
 
-  const handleSelectOne = (event, customerId) => {
-    const selectedIndex = selectedCustomerIds.indexOf(customerId);
+  const handleSelectOne = (event, id) => {
+    const selectedIndex = selectedCustomerIds.indexOf(id);
     let newSelectedCustomerIds = [];
 
     if (selectedIndex === -1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, customerId);
+      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
     } else if (selectedIndex === 0) {
       newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
     } else if (selectedIndex === selectedCustomerIds.length - 1) {
@@ -335,8 +336,9 @@ const Results = ({
     setSnackbarOpen(false);
   };
 
-  const addCustomer = () => {
-    const newCustomer = {
+  const updateCustomer = () => {
+    const existCustomer = {
+      customerId,
       email,
       firstName,
       lastName,
@@ -347,9 +349,9 @@ const Results = ({
       country,
       gender
     };
-    if (email !== '') {
-      console.log(newCustomer);
-      CustomerService.addCustomer(newCustomer);
+    if (email !== '' && customerId !== '') {
+      console.log(existCustomer);
+      CustomerService.updateCustomer(customerId, existCustomer);
       setDialogOpen(false);
       setEmail('');
       setFirstName('');
@@ -456,7 +458,7 @@ const Results = ({
                       {customer.updateAt === null ? 'N/A' : moment(customer.updateAt, 'DD/MM/YYYY').format('DD/MM/YYYY')}
                     </TableCell>
                     <TableCell align="center">
-                      <IconButton aria-label="VisibilitySharp" onClick={() => setDialogOpen(true)}>
+                      <IconButton aria-label="VisibilitySharp" onClick={() => { setDialogOpen(true); setCustomerId(customer.customerId); }}>
                         <VisibilitySharpIcon style={{ fontSize: 30 }} color="primary" />
                       </IconButton>
                     </TableCell>
@@ -476,9 +478,9 @@ const Results = ({
                                 label="Email Address"
                                 fullWidth
                                 id="email"
-                                labelid="email"
+                                labelId="email"
                                 type="email"
-                                value={customer.email}
+                                defaultValue={customer.email}
                                 variant="outlined"
                                 onChange={(event) => setEmail(event.target.value)}
                               />
@@ -513,6 +515,7 @@ const Results = ({
                                 labelid="gender"
                                 id="gender"
                                 displayEmpty
+                                defaultvalue={customer.gender}
                                 value={customer.gender}
                                 onChange={(event) => setGender(event.target.value)}
                               >
@@ -593,7 +596,7 @@ const Results = ({
                             color="primary"
                             className={classes.button}
                             style={{ fontWeight: 300 }}
-                            onClick={addCustomer}
+                            onClick={updateCustomer}
                           >
                             Update Customer
                           </Button>
