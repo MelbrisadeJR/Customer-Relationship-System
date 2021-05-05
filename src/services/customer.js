@@ -33,8 +33,10 @@ const deleteMultipleCustomersByIds = (customerIds) => {
 };
 
 const updateCustomer = (customerId, customer) => {
+  console.log(customer);
+  console.log(customerId);
   http
-    .put(`/customers/${customerId}`, customer)
+    .put(`/customers/updateById/${customerId}`, customer)
     .then((response) => {
       console.log(response);
     })
