@@ -458,7 +458,22 @@ const Results = ({
                       {customer.updateAt === null ? 'N/A' : moment(customer.updateAt, 'DD/MM/YYYY').format('DD/MM/YYYY')}
                     </TableCell>
                     <TableCell align="center">
-                      <IconButton aria-label="VisibilitySharp" onClick={() => { setDialogOpen(true); setCustomerId(customer.customerId); }}>
+                      <IconButton
+                        aria-label="VisibilitySharp"
+                        onClick={() => {
+                          setDialogOpen(true);
+                          setCustomerId(customer.customerId);
+                          setEmail(customer.email);
+                          setFirstName(customer.firstName);
+                          setLastName(customer.lastName);
+                          setGender(customer.gender);
+                          setAddressLine1(customer.addressLine1);
+                          setAddressLine2(customer.addressLine2);
+                          setCity(customer.city);
+                          setCountry(customer.country);
+                          setMobile(customer.mobile);
+                        }}
+                      >
                         <VisibilitySharpIcon style={{ fontSize: 30 }} color="primary" />
                       </IconButton>
                     </TableCell>
@@ -480,7 +495,7 @@ const Results = ({
                                 id="email"
                                 labelId="email"
                                 type="email"
-                                defaultValue={customer.email}
+                                defaultValue={email}
                                 variant="outlined"
                                 onChange={(event) => setEmail(event.target.value)}
                               />
@@ -492,7 +507,7 @@ const Results = ({
                                 id="firstName"
                                 labelid="firstName"
                                 type="firstName"
-                                value={customer.firstName}
+                                defaultValue={firstName}
                                 variant="outlined"
                                 onChange={(event) => setFirstName(event.target.value)}
                               />
@@ -504,7 +519,7 @@ const Results = ({
                                 id="lastName"
                                 labelid="lastName"
                                 type="lastName"
-                                value={customer.lastName}
+                                defaultValue={lastName}
                                 variant="outlined"
                                 onChange={(event) => setLastName(event.target.value)}
                               />
@@ -515,8 +530,7 @@ const Results = ({
                                 labelid="gender"
                                 id="gender"
                                 displayEmpty
-                                defaultvalue={customer.gender}
-                                value={customer.gender}
+                                defaultValue={gender}
                                 onChange={(event) => setGender(event.target.value)}
                               >
                                 {genderOption.map((option) => (
@@ -531,7 +545,7 @@ const Results = ({
                                 id="addressLine1"
                                 labelid="addressLine1"
                                 type="addressLine1"
-                                value={customer.addressLine1}
+                                defaultValue={addressLine1}
                                 variant="outlined"
                                 onChange={(event) => setAddressLine1(event.target.value)}
                               />
@@ -543,7 +557,7 @@ const Results = ({
                                 id="addressLine2"
                                 labelid="addressLine2"
                                 type="addressLine2"
-                                value={customer.addressLine2}
+                                defaultValue={addressLine2}
                                 variant="outlined"
                                 onChange={(event) => setAddressLine2(event.target.value)}
                               />
@@ -555,7 +569,7 @@ const Results = ({
                                 id="city"
                                 labelid="city"
                                 type="city"
-                                value={customer.city}
+                                defaultValue={city}
                                 variant="outlined"
                                 onChange={(event) => setCity(event.target.value)}
                               />
@@ -567,7 +581,7 @@ const Results = ({
                                 id="country"
                                 labelid="country"
                                 type="country"
-                                value={customer.country}
+                                defaultValue={country}
                                 variant="outlined"
                                 onChange={(event) => setCountry(event.target.value)}
                               />
@@ -579,7 +593,7 @@ const Results = ({
                                 id="mobile"
                                 labelid="mobile"
                                 type="mobile"
-                                value={customer.mobile}
+                                defaultValue={mobile}
                                 variant="outlined"
                                 onChange={(event) => setMobile(event.target.value)}
                               />
