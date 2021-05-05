@@ -168,7 +168,8 @@ const EnhancedTableToolbar = (props) => {
   const onDelete = () => {
     const newRows = [...props.rows];
     const selectedRows = newRows.filter((row) => props.selected.includes(row.id));
-    props.setRows(newRows);
+    const unSelectedRows = newRows.filter((row) => !props.selected.includes(row.id));
+    props.setRows(unSelectedRows);
     setUndo(selectedRows);
     props.setSelected([]);
     setAlert({ ...alert, open: true });
@@ -178,7 +179,7 @@ const EnhancedTableToolbar = (props) => {
     const newRows = [...props.rows];
     const redo = [...undo];
     Array.prototype.push.apply(newRows, ...redo);
-    props.setRows(newRows);
+    props.retrieveRows();
   };
 
   return (
