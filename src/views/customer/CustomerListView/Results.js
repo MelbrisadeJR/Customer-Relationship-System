@@ -299,6 +299,8 @@ const Results = ({
   const genderOption = ['male', 'female', 'other'];
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [customerId, setCustomerId] = useState('');
+  //  const [errorSnackbarOpen, setErrorSnackbarOpen] = React.useState(false);
+  //  const [error, setError] = React.useState('');
   const handleSelectAll = (event) => {
     let newSelectedCustomerIds;
 
