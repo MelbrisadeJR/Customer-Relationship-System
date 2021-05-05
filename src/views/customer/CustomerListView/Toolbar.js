@@ -36,6 +36,11 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
+function validateEmail(email) {
+  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+}
+
 const Toolbar = ({
   className,
   customers,
@@ -72,12 +77,11 @@ const Toolbar = ({
       country,
       gender
     };
-    if (email === '') {
+    if (!validateEmail(email)) {
       setErrorSnackbarOpen(true);
-      console.log(newCustomer);
-      setError('Please Enter Email Address!');
+      setError('Please Enter validate Email!');
     }
-    if (email !== '') {
+    if (validateEmail(email)) {
       console.log(newCustomer);
       CustomerService.addCustomer(newCustomer);
       setDialogOpen(false);
