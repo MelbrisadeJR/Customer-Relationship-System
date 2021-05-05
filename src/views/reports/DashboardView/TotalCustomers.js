@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
@@ -13,6 +13,7 @@ import {
 } from '@material-ui/core';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import PeopleIcon from '@material-ui/icons/PeopleOutlined';
+import DashboardService from '../../../services/dashboard';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,6 +35,20 @@ const useStyles = makeStyles((theme) => ({
 
 const TotalCustomers = ({ className, ...rest }) => {
   const classes = useStyles();
+  const [totalCustomers, setTotalCustomers] = useState('');
+  const retrieveTotalCustomers = () => {
+    DashboardService.getTotalCustomers()
+      .then((response) => {
+        setTotalCustomers(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  useEffect(() => {
+    retrieveTotalCustomers();
+  }, []);
 
   return (
     <Card
@@ -58,7 +73,7 @@ const TotalCustomers = ({ className, ...rest }) => {
               color="textPrimary"
               variant="h3"
             >
-              1,600
+              {totalCustomers}
             </Typography>
           </Grid>
           <Grid item>
