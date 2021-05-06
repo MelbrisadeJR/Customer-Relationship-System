@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import {
@@ -14,6 +14,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
+import UserService from '../../services/users';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,12 +22,48 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3)
+  },
+  box: {
+    backgroundColor: 'white',
+    height: '700px',
+    margin: '100px 100px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
   }
 }));
 
 const RegisterView = () => {
   const classes = useStyles();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+
+  const [user, setUser] = useState({
+    email: 'daneezhao@gmail.com',
+    password: 'danniz',
+    policy: false,
+  });
+
+  const handleOnChange = (event) => {
+    setUser({
+      ...user,
+      [event.target.name]: event.target.value
+    });
+  };
+
+  const handleSignUp = async () => {
+    // event.preventDefault();
+    console.log('AHHH');
+    const newUser = {
+      username: user.email,
+      email: user.email,
+      password: user.password,
+      confirmPassword: user.password
+    };
+    console.log('your verification code has been sent to your email, please login your email to check.');
+
+    await UserService.registerUser(newUser);
+    // navigate('/app/dashboard', { replace: true });
+  };
 
   return (
     <Page
@@ -34,32 +71,23 @@ const RegisterView = () => {
       title="Register"
     >
       <Box
-        display="flex"
-        flexDirection="column"
-        height="100%"
-        justifyContent="center"
+        className={classes.box}
       >
         <Container maxWidth="sm">
           <Formik
             initialValues={{
-              email: '',
-              firstName: '',
-              lastName: '',
-              password: '',
-              policy: false
+              email: user.email,
+              password: user.password,
+              policy: user.policy
             }}
             validationSchema={
               Yup.object().shape({
                 email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-                firstName: Yup.string().max(255).required('First name is required'),
-                lastName: Yup.string().max(255).required('Last name is required'),
-                password: Yup.string().max(255).required('password is required'),
+                password: Yup.string().max(6).required('password is required'),
                 policy: Yup.boolean().oneOf([true], 'This field must be checked')
               })
             }
-            onSubmit={() => {
-              navigate('/app/dashboard', { replace: true });
-            }}
+            onSubmit={handleSignUp}
           >
             {({
               errors,
@@ -68,7 +96,7 @@ const RegisterView = () => {
               handleSubmit,
               isSubmitting,
               touched,
-              values
+              // values
             }) => (
               <form onSubmit={handleSubmit}>
                 <Box mb={3}>
@@ -87,30 +115,6 @@ const RegisterView = () => {
                   </Typography>
                 </Box>
                 <TextField
-                  error={Boolean(touched.firstName && errors.firstName)}
-                  fullWidth
-                  helperText={touched.firstName && errors.firstName}
-                  label="First name"
-                  margin="normal"
-                  name="firstName"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.firstName}
-                  variant="outlined"
-                />
-                <TextField
-                  error={Boolean(touched.lastName && errors.lastName)}
-                  fullWidth
-                  helperText={touched.lastName && errors.lastName}
-                  label="Last name"
-                  margin="normal"
-                  name="lastName"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.lastName}
-                  variant="outlined"
-                />
-                <TextField
                   error={Boolean(touched.email && errors.email)}
                   fullWidth
                   helperText={touched.email && errors.email}
@@ -118,9 +122,9 @@ const RegisterView = () => {
                   margin="normal"
                   name="email"
                   onBlur={handleBlur}
-                  onChange={handleChange}
+                  onChange={handleOnChange}
                   type="email"
-                  value={values.email}
+                  value={user.email}
                   variant="outlined"
                 />
                 <TextField
@@ -131,9 +135,9 @@ const RegisterView = () => {
                   margin="normal"
                   name="password"
                   onBlur={handleBlur}
-                  onChange={handleChange}
+                  onChange={handleOnChange}
                   type="password"
-                  value={values.password}
+                  value={user.password}
                   variant="outlined"
                 />
                 <Box
@@ -142,7 +146,7 @@ const RegisterView = () => {
                   ml={-1}
                 >
                   <Checkbox
-                    checked={values.policy}
+                    checked={user.policy}
                     name="policy"
                     onChange={handleChange}
                   />

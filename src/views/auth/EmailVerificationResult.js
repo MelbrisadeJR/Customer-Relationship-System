@@ -16,6 +16,14 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3)
+  },
+  box: {
+    backgroundColor: 'white',
+    height: '700px',
+    margin: '100px 100px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
   }
 }));
 
@@ -42,10 +50,7 @@ const EmailVerificationResult = () => {
       title="Email Verification"
     >
       <Box
-        display="flex"
-        flexDirection="column"
-        height="100%"
-        justifyContent="center"
+        className={classes.box}
       >
         <Container maxWidth="sm">
           <Typography>

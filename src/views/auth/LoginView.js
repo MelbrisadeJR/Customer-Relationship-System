@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
+// import jwt from 'jwt-decode';
 import {
   Box,
   Button,
@@ -15,6 +16,7 @@ import {
 import FacebookIcon from 'src/icons/Facebook';
 import GoogleIcon from 'src/icons/Google';
 import Page from 'src/components/Page';
+import UserService from '../../services/users';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,6 +24,14 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3)
+  },
+  box: {
+    backgroundColor: 'white',
+    height: '700px',
+    margin: '100px 100px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
   }
 }));
 
@@ -29,39 +39,60 @@ const LoginView = () => {
   const classes = useStyles();
   const navigate = useNavigate();
 
+  const [user, setUser] = useState({
+    email: 'daneezhao@gmail.com',
+    password: 'danniz'
+  });
+
+  const handleChange = (event) => {
+    setUser({
+      ...user,
+      [event.target.name]: event.target.value
+    });
+  };
+
+  const handleLogin = async () => {
+    // event.preventDefault();
+    const newUser = {
+      username: user.email,
+      password: user.password
+    };
+    const { token } = await UserService.authenticate(newUser);
+    const isAuth = token.replace('Bearer ', '');
+    localStorage.setItem('token', isAuth);
+    console.log(isAuth);
+    console.log('0000000000???');
+    navigate('/app/dashboard', { replace: true });
+  };
+
   return (
     <Page
       className={classes.root}
       title="Login"
     >
       <Box
-        display="flex"
-        flexDirection="column"
-        height="100%"
-        justifyContent="center"
+        className={classes.box}
       >
         <Container maxWidth="sm">
           <Formik
             initialValues={{
-              email: 'demo@devias.io',
-              password: 'Password123'
+              email: user.email,
+              password: user.password
             }}
             validationSchema={Yup.object().shape({
               email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-              password: Yup.string().max(255).required('Password is required')
+              password: Yup.string().max(6).required('Password is required')
             })}
-            onSubmit={() => {
-              navigate('/app/dashboard', { replace: true });
-            }}
+            onSubmit={handleLogin}
           >
             {({
               errors,
               handleBlur,
-              handleChange,
+              // handleChange,
               handleSubmit,
               isSubmitting,
               touched,
-              values
+              // values
             }) => (
               <form onSubmit={handleSubmit}>
                 <Box mb={3}>
@@ -92,7 +123,7 @@ const LoginView = () => {
                       color="primary"
                       fullWidth
                       startIcon={<FacebookIcon />}
-                      onClick={handleSubmit}
+                      onClick={handleLogin}
                       size="large"
                       variant="contained"
                     >
@@ -107,7 +138,7 @@ const LoginView = () => {
                     <Button
                       fullWidth
                       startIcon={<GoogleIcon />}
-                      onClick={handleSubmit}
+                      onClick={handleLogin}
                       size="large"
                       variant="contained"
                     >
@@ -137,7 +168,7 @@ const LoginView = () => {
                   onBlur={handleBlur}
                   onChange={handleChange}
                   type="email"
-                  value={values.email}
+                  value={user.email}
                   variant="outlined"
                 />
                 <TextField
@@ -150,7 +181,7 @@ const LoginView = () => {
                   onBlur={handleBlur}
                   onChange={handleChange}
                   type="password"
-                  value={values.password}
+                  value={user.password}
                   variant="outlined"
                 />
                 <Box my={2}>
@@ -161,6 +192,7 @@ const LoginView = () => {
                     size="large"
                     type="submit"
                     variant="contained"
+                    // onClick={handleLogin}
                   >
                     Sign in now
                   </Button>
