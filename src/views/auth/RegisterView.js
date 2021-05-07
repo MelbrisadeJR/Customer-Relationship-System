@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import {
@@ -15,6 +15,7 @@ import {
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 import UserService from '../../services/users';
+import CustomDialog from './SendEmailVerificationDialog';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,29 +36,25 @@ const useStyles = makeStyles((theme) => ({
 
 const RegisterView = () => {
   const classes = useStyles();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
 
-  const [user, setUser] = useState({
-    email: 'daneezhao@gmail.com',
-    password: 'danniz',
-    policy: false,
-  });
-
-  const handleOnChange = (event) => {
-    setUser({
-      ...user,
-      [event.target.name]: event.target.value
-    });
+  const handleDialogOpen = () => {
+    setOpen(true);
   };
 
-  const handleSignUp = async () => {
+  const handleDialogClose = () => {
+    setOpen(false);
+  };
+
+  const handleSignUp = async (email, password) => {
     // event.preventDefault();
     console.log('AHHH');
     const newUser = {
-      username: user.email,
-      email: user.email,
-      password: user.password,
-      confirmPassword: user.password
+      username: email,
+      email,
+      password,
+      confirmPassword: password
     };
     console.log('your verification code has been sent to your email, please login your email to check.');
 
@@ -75,10 +72,16 @@ const RegisterView = () => {
       >
         <Container maxWidth="sm">
           <Formik
+            enableReinitialize
             initialValues={{
-              email: user.email,
-              password: user.password,
-              policy: user.policy
+              email: 'daneezhao@gmail.com',
+              password: 'danniz',
+              policy: false,
+            }}
+            onSubmit={({ email, password }) => {
+              // console.log(`email: ${email}, password: ${password}`);
+              handleSignUp(email, password);
+              navigate('/app/dashboard', { replace: true });
             }}
             validationSchema={
               Yup.object().shape({
@@ -87,7 +90,6 @@ const RegisterView = () => {
                 policy: Yup.boolean().oneOf([true], 'This field must be checked')
               })
             }
-            onSubmit={handleSignUp}
           >
             {({
               errors,
@@ -96,7 +98,7 @@ const RegisterView = () => {
               handleSubmit,
               isSubmitting,
               touched,
-              // values
+              values,
             }) => (
               <form onSubmit={handleSubmit}>
                 <Box mb={3}>
@@ -122,9 +124,9 @@ const RegisterView = () => {
                   margin="normal"
                   name="email"
                   onBlur={handleBlur}
-                  onChange={handleOnChange}
+                  onChange={handleChange}
                   type="email"
-                  value={user.email}
+                  value={values.email}
                   variant="outlined"
                 />
                 <TextField
@@ -135,9 +137,9 @@ const RegisterView = () => {
                   margin="normal"
                   name="password"
                   onBlur={handleBlur}
-                  onChange={handleOnChange}
+                  onChange={handleChange}
                   type="password"
-                  value={user.password}
+                  value={values.password}
                   variant="outlined"
                 />
                 <Box
@@ -146,7 +148,7 @@ const RegisterView = () => {
                   ml={-1}
                 >
                   <Checkbox
-                    checked={user.policy}
+                    checked={values.policy}
                     name="policy"
                     onChange={handleChange}
                   />
@@ -180,9 +182,11 @@ const RegisterView = () => {
                     size="large"
                     type="submit"
                     variant="contained"
+                    onClick={handleDialogOpen}
                   >
                     Sign up now
                   </Button>
+                  <CustomDialog openDialog={open} onDialogClose={handleDialogClose} />
                 </Box>
                 <Typography
                   color="textSecondary"
