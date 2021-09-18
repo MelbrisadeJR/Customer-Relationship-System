@@ -11,7 +11,7 @@ phases:
       - echo $CODEBUILD_SRC_DIR
   build:
     commands:
-      - npm build
+      - npm run build
       - ls -al
       - pwd
     
