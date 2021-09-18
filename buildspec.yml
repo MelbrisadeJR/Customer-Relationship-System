@@ -16,7 +16,7 @@ phases:
       - pwd
     
 artifacts:
-  base-directory: ./build
+  base-directory: build
   files:
     - '**/*'
   name: AP-SOUTHEAST-2
